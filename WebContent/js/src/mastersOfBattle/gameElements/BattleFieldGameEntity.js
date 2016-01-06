@@ -13,31 +13,13 @@ MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.constructor = MASTERS_OF_BATTL
 /**
  * @public
  */
-MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateState =  function() {};
+MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateState = function() {};
 
 /**
  * @public
  * @param {CanvasRenderingContext2D} context
  */
-MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateGraphics =  function(context) {
-	var currentColor = "gray";
-	for(var x = 0; x < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS; x++) {
-		for(var y = 0; y < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS; y++) {
-			context.fillStyle = currentColor;
-			context.fillRect(x * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-					y * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-					MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-					MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE);
-			if(currentColor === "gray") {
-				currentColor = "coral";
-			} else {
-				currentColor = "gray";
-			}
-		}
-		if(currentColor === "gray") {
-			currentColor = "coral";
-		} else {
-			currentColor = "gray";
-		}
-	}
+MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateGraphics = function(context) {
+	context.fillStyle = "#00cc00";
+	context.fillRect(this.x, this.y, this.width, this.height);
 };

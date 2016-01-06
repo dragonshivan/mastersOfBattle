@@ -33,7 +33,14 @@
 		var battleFieldEntity = new MASTERS_OF_BATTLE.BattleFieldGameEntity();
 		
 		var gameEntities = [];
-		gameEntities[0] = battleFieldEntity;
+		var gameEntitiesIdx = 0;
+		gameEntities[gameEntitiesIdx++] = battleFieldEntity;
+		
+		for(var cellX = 0; cellX < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS; cellX++) {
+			for(var cellY = 0; cellY < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS; cellY++) {
+				gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.BattleFieldCellGameEntity(cellX, cellY);
+			}
+		}
 		
 		var inputEventQueue = new GAME_LOOP.Queue(10);
 		new GAME_LOOP.CanvasMouseListener(inputEventQueue);
