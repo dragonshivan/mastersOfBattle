@@ -4,7 +4,7 @@ MASTERS_OF_BATTLE.BattleFieldGameEntity = function() {
 	GAME_LOOP.GameEntity.call(this, 0, 0, 
 			MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-			-1);
+			MASTERS_OF_BATTLE.Constants.ZINDEX_BATTLE_FIELD);
 };
 
 MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype = Object.create(GAME_LOOP.GameEntity.prototype);

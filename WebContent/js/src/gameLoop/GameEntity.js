@@ -34,3 +34,12 @@ GAME_LOOP.GameEntity.prototype.updateState =  function() {};
  * @param {CanvasRenderingContext2D} context
  */
 GAME_LOOP.GameEntity.prototype.updateGraphics =  function(context) {};
+
+/**
+ * @public
+ * @param inputEvent
+ */
+GAME_LOOP.GameEntity.prototype.isMouseOver =  function(inputEvent) {
+	return inputEvent.canvasX >= this.x && inputEvent.canvasX < this.x + this.width && 
+		inputEvent.canvasY >= this.y && inputEvent.canvasY < this.y + this.height;
+};

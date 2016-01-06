@@ -26,6 +26,7 @@
 	<script src="../../js/src/mastersOfBattle/MastersOfBattleConstants.js"></script>	
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldCellGameEntity.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameElements/UnitGameEntity.js"></script>
 	<script>
 	$(document).ready(main);
 	
@@ -41,6 +42,10 @@
 				gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.BattleFieldCellGameEntity(cellX, cellY);
 			}
 		}
+		
+		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(2, 4);
+		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(3, 4);
+		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(1, 5);
 		
 		var inputEventQueue = new GAME_LOOP.Queue(10);
 		new GAME_LOOP.CanvasMouseListener(inputEventQueue);

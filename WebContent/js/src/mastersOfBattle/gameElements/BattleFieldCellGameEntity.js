@@ -9,7 +9,7 @@ MASTERS_OF_BATTLE.BattleFieldCellGameEntity = function(cellX, cellY) {
 			cellY * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-			10);
+			MASTERS_OF_BATTLE.Constants.ZINDEX_BATTLE_FIELD_CELL);
 	this.blackHexImg = MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_BLACK_IMG;
 	this.whiteHexImg = MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_WHITE_IMG;
 	this.img = this.whiteHexImg;
@@ -24,18 +24,17 @@ MASTERS_OF_BATTLE.BattleFieldCellGameEntity.prototype.constructor = MASTERS_OF_B
  * @param inputEvent
  */
 MASTERS_OF_BATTLE.BattleFieldCellGameEntity.prototype.processInput = function(inputEvent) {
-	
+	this.selected = this.isMouseOver(inputEvent);
 };
 
 /**
  * @public
  */
 MASTERS_OF_BATTLE.BattleFieldCellGameEntity.prototype.updateState = function() {
-	//TODO
 	if(this.selected) {
-//		this.img = this.whiteHexImg;
+		this.img = this.blackHexImg;
 	} else {
-//		this.img = this.blackHexImg;
+		this.img = this.whiteHexImg;
 	}
 };
 
