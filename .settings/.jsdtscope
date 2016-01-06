@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry excluding="**/node_modules/*/|**/*.min.js/|**/bower_components/*/" kind="src" path="WebContent/js/src-test"/>
+	<classpathentry excluding="**/node_modules/*/|**/*.min.js/|**/bower_components/*/" kind="src" path="WebContent/js/src"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.USER_LIBRARY/jquery"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
