@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<title>Minimax Reversi</title>
+	
+	<link type="text/css" href="css/reversi.css" rel="stylesheet">
+	
+	<script src="../../js/lib/jquery-1.11.1_.js"></script>
+	<script src="../../js/src/gameLoop/GameLoopConstants.js"></script>
+	<script src="../../js/src/gameLoop/GameLoop.js"></script>
+	<script src="../../js/src/gameLoop/GameEntity.js"></script>
+	<script src="../../js/src/gameLoop/UserInputListener.js"></script>
+	<script src="../../js/src/gameLoop/utils/AtlasAnimation.js"></script>
+	<script src="../../js/src/gameLoop/utils/ImageCrop.js"></script>
+	
+	<script src="../../js/src/minimax/MinimaxConstants.js"></script>
+	<script src="../../js/src/minimax/Evaluator.js"></script>
+	<script src="../../js/src/minimax/GameArbiter.js"></script>
+	<script src="../../js/src/minimax/GameState.js"></script>
+	<script src="../../js/src/minimax/GameTree.js"></script>
+	<script src="../../js/src/minimax/GameTreeNodesHashtable.js"></script>
+		
+	<script src="../../js/src/reversi/ReversiConstants.js"></script>
+	<script src="../../js/src/reversi/ReversiEvaluationCriterion.js"></script>
+	<script src="../../js/src/reversi/ReversiEvaluator.js"></script>
+	<script src="../../js/src/reversi/ReversiGameState.js"></script>
+	<script src="../../js/src/reversi/ReversiGameStateHelper.js"></script>
+	<script src="../../js/src/reversi/ui/BoardGameEntity.js"></script>
+	<script src="../../js/src/reversi/ui/BoardCellGameEntity.js"></script>
+	<script src="../../js/src/reversi/ui/GameUIController.js"></script>
+	<script src="../../js/src/reversi/ui/UIController.js"></script>
+	<script>
+	$(document).ready(main);
+	
+	function main() {
+		new REVERSI.UIController();
+	};
+	
+	</script>
+</head>
+<body>
+	<center>
+		<br>
+		<br>
+		<div style="width: 100%;display: block;">
+			<div>
+				Starting (black) player:<select id="blackPlayerOwnerSelect">
+					<option value="HUMAN" selected="selected">Human</option>
+					<option value="CPU">A.I.</option>
+				</select>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				Difficulty:<select id="minimaxEvaluationHorizon">
+					<option value="2">Very easy</option>
+					<option value="3">Easy</option>
+					<option value="4" selected="selected">Medium</option>
+					<option value="5">Hard</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div>	
+			<input type="button" id="startGameButton" value="Start">
+		</div>
+		<br>
+		<div id="messageOutputDiv" style="display: none; height: 100px; width: 500px; font-size: 1.2em; color: #FF9933;">
+		</div>
+		<br>
+		<br>
+		<canvas id="canvas"></canvas>
+	</center>
+</body>
+</html>
