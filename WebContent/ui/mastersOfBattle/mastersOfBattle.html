@@ -23,18 +23,28 @@
 	<script src="../../js/src/minimax/GameTree.js"></script>
 	<script src="../../js/src/minimax/GameTreeNodesHashtable.js"></script>
 		
-	<script src="../../js/src/mastersOfBattle/TODO.js"></script>
+	<script src="../../js/src/mastersOfBattle/MastersOfBattleConstants.js"></script>	
+	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldGameEntity.js"></script>
 	<script>
 	$(document).ready(main);
 	
 	function main() {
-		new REVERSI.UIController();
+		var battleFieldEntity = new MASTERS_OF_BATTLE.BattleFieldGameEntity();
+		
+		var gameEntities = [];
+		gameEntities[0] = battleFieldEntity;
+		
+		var inputEventQueue = new GAME_LOOP.Queue(10);
+		new GAME_LOOP.CanvasMouseListener(inputEventQueue);
+		var gameLoop = new GAME_LOOP.GameLoop(gameEntities, inputEventQueue, 
+				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
+				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE);
+		gameLoop.start();
 	};
 	
 	</script>
 </head>
 <body>
-	TODO
 	<center>
 		<canvas id="canvas"></canvas>
 	</center>
