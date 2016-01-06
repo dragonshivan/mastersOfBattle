@@ -20,7 +20,7 @@ MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateState =  function() {};
  * @param {CanvasRenderingContext2D} context
  */
 MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateGraphics =  function(context) {
-	var currentColor = "blue";
+	var currentColor = "gray";
 	for(var x = 0; x < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS; x++) {
 		for(var y = 0; y < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS; y++) {
 			context.fillStyle = currentColor;
@@ -28,16 +28,16 @@ MASTERS_OF_BATTLE.BattleFieldGameEntity.prototype.updateGraphics =  function(con
 					y * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 					MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 					MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE);
-			if(currentColor === "blue") {
-				currentColor = "red";
+			if(currentColor === "gray") {
+				currentColor = "coral";
 			} else {
-				currentColor = "blue";
+				currentColor = "gray";
 			}
 		}
-		if(currentColor === "blue") {
-			currentColor = "red";
+		if(currentColor === "gray") {
+			currentColor = "coral";
 		} else {
-			currentColor = "blue";
+			currentColor = "gray";
 		}
 	}
 };
