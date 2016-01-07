@@ -9,6 +9,12 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(startCellX, startCellY) {
 			MASTERS_OF_BATTLE.Constants.ZINDEX_UNIT);
 	this.currentCellX = startCellX;
 	this.currentCellY = startCellY;
+	this.currentAnimation = new GAME_LOOP.AtlasAnimation(
+			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_IMG, 
+			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_FRAME_CROPS, 
+			11,
+			true);
+	this.currentAnimation.start();
 };
 
 MASTERS_OF_BATTLE.UnitGameEntity.prototype = Object.create(GAME_LOOP.GameEntity.prototype);
@@ -18,7 +24,7 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.constructor = MASTERS_OF_BATTLE.UnitG
  * @public
  */
 MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateState = function() {
-	
+	this.currentAnimation.onGameStateUpdate();
 };
 
 /**
@@ -34,4 +40,5 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateGraphics = function(context) {
 	context.fillText("10 Hp", this.x + 2, this.y + 25);
 	context.fillText("red player", this.x + 2, this.y + 35);
 	context.fillText("Standing", this.x + 2, this.y + 45);
+	this.currentAnimation.onGraphicsUpdate(context, this.x, this.y);
 };
