@@ -23,13 +23,15 @@
 	<script src="../../js/src/minimax/GameTree.js"></script>
 	<script src="../../js/src/minimax/GameTreeNodesHashtable.js"></script>
 		
-	<script src="../../js/src/mastersOfBattle/MastersOfBattleConstants.js"></script>	
+	<script src="../../js/src/mastersOfBattle/animation/AtlasImageAndFrames.js"></script>	
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldCellGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/gameElements/UnitGameEntity.js"></script>
+	<script src="../../js/src/mastersOfBattle/unit/UnitFactory.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitAction.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitCharacteristics.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitStats.js"></script>
+	<script src="../../js/src/mastersOfBattle/MastersOfBattleConstants.js"></script>
 	<script>
 	$(document).ready(main);
 	
@@ -46,9 +48,7 @@
 			}
 		}
 		
-		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(2, 4);
-		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(3, 4);
-		gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.UnitGameEntity(1, 5);
+		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 1, 22);
 		
 		var inputEventQueue = new GAME_LOOP.Queue(10);
 		new GAME_LOOP.CanvasMouseListener(inputEventQueue);

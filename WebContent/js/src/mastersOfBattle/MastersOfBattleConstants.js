@@ -62,6 +62,7 @@ MASTERS_OF_BATTLE.Constants.Dummy.IMAGE_AND_FRAMES_RED = new MASTERS_OF_BATTLE.A
  * unit
  */
 MASTERS_OF_BATTLE.Constants.Unit = {};
+MASTERS_OF_BATTLE.Constants.Unit.FACTORY = new MASTERS_OF_BATTLE.UnitFactory();
 
 /**
  * unit action

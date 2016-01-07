@@ -1,6 +1,6 @@
 var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
-MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsName, 
+MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId, 
 		faction,
 		sizeRows, sizeColumns,
 		sequence, movePoints, 
@@ -8,11 +8,11 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsName,
 		unitAction,
 		standRightImageAndFrames /*TODO add remaining animations*/) {
 	
-	this.characteristicsName = characteristicsName;
+	this.characteristicsId = characteristicsId;
 	this.faction = faction;
 	this.sizeRows = sizeRows;
 	this.sizeColumns = sizeColumns;
-	this.sequence = squence;
+	this.sequence = sequence;
 	this.movePoints = movePoints;
 	this.defense = defense;
 	this.hitPoints = hitPoints;
