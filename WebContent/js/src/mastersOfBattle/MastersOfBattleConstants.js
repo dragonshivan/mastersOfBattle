@@ -25,13 +25,25 @@ MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_WHITE_IMG = function() {
 
 MASTERS_OF_BATTLE.Constants.Dummy = [];
 
-MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_IMG = function() {
+MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_RED_IMG = function() {
 	var tokenImageAtlas = new Image();
-	tokenImageAtlas.src = "img/dummy_animation_01.png";
+	tokenImageAtlas.src = "img/dummy_animation_red.png";
 	return tokenImageAtlas;
 }();
 
-MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_FRAME_CROPS = 
+MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_GREEN_IMG = function() {
+	var tokenImageAtlas = new Image();
+	tokenImageAtlas.src = "img/dummy_animation_green.png";
+	return tokenImageAtlas;
+}();
+
+MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_BLUE_IMG = function() {
+	var tokenImageAtlas = new Image();
+	tokenImageAtlas.src = "img/dummy_animation_blue.png";
+	return tokenImageAtlas;
+}();
+
+MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_FRAME_CROPS = 
 	[new GAME_LOOP.ImageCrop(0, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE),
 	 new GAME_LOOP.ImageCrop(100, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE),
 	 new GAME_LOOP.ImageCrop(200, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE)];

@@ -10,9 +10,9 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(startCellX, startCellY) {
 	this.currentCellX = startCellX;
 	this.currentCellY = startCellY;
 	this.currentAnimation = new GAME_LOOP.AtlasAnimation(
-			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_IMG, 
-			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_01_FRAME_CROPS, 
-			11,
+			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_BLUE_IMG, 
+			MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_FRAME_CROPS, 
+			3,
 			true);
 	this.currentAnimation.start();
 };
