@@ -2,4 +2,5 @@ body, select, option, input {
 	font-family: arial;
 	font-size: 1.0em;
 	font-weight: bold;
+	cursor: url(../img/cursor_gauntlet_small.png), auto;
 }
