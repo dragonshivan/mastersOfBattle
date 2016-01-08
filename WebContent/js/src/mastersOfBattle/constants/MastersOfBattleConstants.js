@@ -1,0 +1,31 @@
+var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
+
+/*
+ * 
+ */
+MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE = 50;
+MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS = 12;
+MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS = 9;
+
+MASTERS_OF_BATTLE.Constants.ZINDEX_BATTLE_FIELD = -1;
+MASTERS_OF_BATTLE.Constants.ZINDEX_BATTLE_FIELD_CELL = 10;
+MASTERS_OF_BATTLE.Constants.ZINDEX_UNIT = 100;
+
+/*
+ * unit action
+ */
+MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.ANY_CELL = 0;
+MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.ENEMY_UNIT_ONLY = 1;
+MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.FRIENDLY_UNIT_ONLY = 2;
+MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.FRIENDLY_AND_ENEMY_UNIT = 3;
+
+/*
+ * faction
+ */
+MASTERS_OF_BATTLE.Constants.Faction.HUMAN = 1;
+MASTERS_OF_BATTLE.Constants.Faction.UNDEAD = 0;
+
+
+
+
+

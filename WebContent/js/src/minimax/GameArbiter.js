@@ -23,7 +23,7 @@ MINIMAX.GameArbiter = function(evaluator, startingGameState) {
  * @param {Object} [action]
  * @returns {MINIMAX.GameState}
  */
-MINIMAX.GameArbiter.prototype.advanceGame = function() {
+MINIMAX.GameArbiter.prototype.advanceGame = function(/* action */) {
 	if(this.gameState.getPlayerToMove() === this.cpuPlayer) {
 		var st = new Date().getTime();
 		var gameTree = new MINIMAX.GameTree(this.evaluator);
