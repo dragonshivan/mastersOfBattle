@@ -2,13 +2,13 @@ var GAME_LOOP = GAME_LOOP = GAME_LOOP || {};
 /**
  * @public
  * @constructor
- * @param {Image} atlasImg
+ * @param {Image|Array} atlasImg - Image or Array of Images
  * @param {ImageCrop[]} animationFramesCrops
  * @param {Number} fps
  * @param {Boolean} [wrapAround]
  * @returns {GAME_LOOP.AtlasAnimation}
  */
-GAME_LOOP.AtlasAnimation = function(atlasImg, animationFramesCrops, fps, wrapAround) {
+GAME_LOOP.AtlasAnimation = function(atlasImg/*...*/, animationFramesCrops, fps, wrapAround) {
 	this.atlasImg = atlasImg;
 	this.animationFramesCrops = animationFramesCrops;
 	this.fps = fps;
@@ -72,9 +72,18 @@ GAME_LOOP.AtlasAnimation.prototype.onGraphicsUpdate = function(context, x, y) {
 	if(this.isStarted() && !this.isFinished()) {
 				
 		var frameCrop = this.animationFramesCrops[this.getActualFrameIdx()];
-		context.drawImage(this.atlasImg,
+		if(this.atlasImg.constructor === Array) {
+			for(var i = 0; i < this.atlasImg.length; i++) {
+				var curImg = this.atlasImg[i];
+				context.drawImage(curImg,
+						frameCrop.x, frameCrop.y, frameCrop.width, frameCrop.height, 
+						x + frameCrop.dx, y + frameCrop.dy, frameCrop.drawWidth, frameCrop.drawHeight);
+			}
+		} else {
+			context.drawImage(this.atlasImg,
 				frameCrop.x, frameCrop.y, frameCrop.width, frameCrop.height, 
 				x + frameCrop.dx, y + frameCrop.dy, frameCrop.drawWidth, frameCrop.drawHeight);
+		}
 	}
 };
 

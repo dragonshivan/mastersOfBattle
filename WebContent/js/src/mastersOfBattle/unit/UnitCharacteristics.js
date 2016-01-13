@@ -6,7 +6,10 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 		sequence, movePoints, 
 		defense, hitPoints,
 		unitAction,
-		standRightImageAndFrames /*TODO add remaining animations*/) {
+		standingLeftAtlasImagesBundle,
+		standingLeftImageCrops,
+		walkingLeftAtlasImagesBundle,
+		walkingLeftImageCrops) {
 	
 	this.characteristicsId = characteristicsId;
 	this.faction = faction;
@@ -17,5 +20,8 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 	this.defense = defense;
 	this.hitPoints = hitPoints;
 	this.unitAction = unitAction;
-	this.standRightImageAndFrames = standRightImageAndFrames;
+	this.standingLeftAtlasImagesBundle = standingLeftAtlasImagesBundle;
+	this.standingLeftImageCrops = standingLeftImageCrops;
+	this.walkingLeftAtlasImagesBundle = walkingLeftAtlasImagesBundle;
+	this.walkingLeftImageCrops = walkingLeftImageCrops;
 };
