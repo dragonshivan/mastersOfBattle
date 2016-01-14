@@ -106,8 +106,9 @@ GAME_LOOP.GameLoop.prototype.getCurrentTimeMs = function() {
  * @private
  */
 GAME_LOOP.GameLoop.prototype.gameEntityZIndexSort = function(gameEntity1, gameEntity2) {
-	var val = gameEntity2.zIndex - gameEntity1.zIndex;;
+	var val = gameEntity1.zIndex - gameEntity2.zIndex;;
 	if(val == 0) {
 		return gameEntity1.y - gameEntity2.y;
 	}
+	return val;
 };

@@ -26,14 +26,14 @@
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleConstantsNamespace.js"></script>	
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleConstants.js"></script>
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleRuntimeConstants.js"></script>
-	<script src="../../js/src/mastersOfBattle/animation/AtlasImagesBundle.js"></script>	
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldCellGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/gameElements/UnitGameEntity.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitFactory.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/action/UnitAction.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/action/UnitActionEffect.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/action/effect/UnitDamageEffect.js"></script>
+	<script src="../../js/src/mastersOfBattle/unit/action/effect/UnitMeleeDamageEffect.js"></script>
+	<script src="../../js/src/mastersOfBattle/unit/action/effect/UnitArrowDamageEffect.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitCharacteristics.js"></script>
 	<script src="../../js/src/mastersOfBattle/unit/UnitStats.js"></script>	
 	
@@ -65,8 +65,8 @@
 		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 7, 22);
 		
 		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 10, 2, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 10, 4, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 10, 6, 22);
+		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 4, 22);
+		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 6, 22);
 		
 		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 1, 22);
 		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 3, 22);

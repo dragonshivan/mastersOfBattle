@@ -1,13 +1,16 @@
 var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
-MASTERS_OF_BATTLE.UnitStats = function(startCellX, startCellY, membersCount, topUnitHitPoints) {
+MASTERS_OF_BATTLE.UnitStats = function(unitId, owningPlayer, startCellX, startCellY, membersCount, topUnitHitPoints) {
+	this.unitId = unitId;
+	this.owningPlayer = owningPlayer;
+	
 	this.startCellX = startCellX;
 	this.startCellY = startCellY;
-	this.membersCount = membersCount;
-	
 	this.currentCellX = startCellX;
 	this.currentCellY = startCellY;
+	
+	this.membersCount = membersCount;
 	this.currentMembersCount = membersCount;
 	this.topUnitHitPoints = topUnitHitPoints;
-	this.currentHitPointsTopUnit = topUnitHitPoints;
+	this.currentTopUnitHitPoints = topUnitHitPoints;
 };

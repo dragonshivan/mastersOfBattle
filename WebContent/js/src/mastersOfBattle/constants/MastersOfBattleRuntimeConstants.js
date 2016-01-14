@@ -60,8 +60,6 @@ function initMastersOfBattleRuntimeConstants() {
 		 new GAME_LOOP.ImageCrop(100, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE),
 		 new GAME_LOOP.ImageCrop(200, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE),
 		 new GAME_LOOP.ImageCrop(100, 0, 0, 0, 100, 100, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE)];
-
-	MASTERS_OF_BATTLE.Constants.Dummy.IMAGES_BUNDLE_RED = new MASTERS_OF_BATTLE.AtlasImagesBundle(MASTERS_OF_BATTLE.Constants.Dummy.ANIMATION_RED_IMG);
 	
 	/*
 	 * unit
@@ -69,13 +67,14 @@ function initMastersOfBattleRuntimeConstants() {
 	MASTERS_OF_BATTLE.Constants.Unit.FACTORY = new MASTERS_OF_BATTLE.UnitFactory();
 	
 	/*
-	 * unit action effect
+	 * unit action
 	 */
-	MASTERS_OF_BATTLE.Constants.Unit.Action.Effect.SWORD_HIT_DAMAGE_100 = new MASTERS_OF_BATTLE.UnitDamageEffect(100);
-	
 	MASTERS_OF_BATTLE.Constants.Unit.Action.SWORD_HIT = new MASTERS_OF_BATTLE.UnitAction("Sword hit", 1, 1, 1, 
 			MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.ENEMY_UNIT_ONLY, 
-			MASTERS_OF_BATTLE.Constants.Unit.Action.Effect.SWORD_HIT_DAMAGE_100);
+			new MASTERS_OF_BATTLE.UnitMeleeDamageEffect(25));
+	MASTERS_OF_BATTLE.Constants.Unit.Action.ARROW_HIT = new MASTERS_OF_BATTLE.UnitAction("Arrow hit", 12, 1, 1, 
+			MASTERS_OF_BATTLE.Constants.Unit.Action.Restriction.ENEMY_UNIT_ONLY, 
+			new MASTERS_OF_BATTLE.UnitArrowDamageEffect(100, 0.25));
 	
 	/*
 	 * unit frame crops
@@ -131,9 +130,15 @@ function initMastersOfBattleRuntimeConstants() {
 			tokenImageAtlas.src = "img/unit/Walking/torso/TORSO_chain_armor_torso.png";
 			return tokenImageAtlas;
 		}();	
+	MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["torso"]["leather_armor_torso"] = 
+		function() {
+			var tokenImageAtlas = new Image();
+			tokenImageAtlas.src = "img/unit/Walking/torso/TORSO_leather_armor_torso.png";
+			return tokenImageAtlas;
+		}();	
 		
 	/*
-	 * unit characteristcs
+	 * unit characteristics
 	 */
 	MASTERS_OF_BATTLE.Constants.Unit.Characteristics.Human.SWORDSMAN = new MASTERS_OF_BATTLE.UnitCharacteristics("Human swordsman", 
 				MASTERS_OF_BATTLE.Constants.Faction.HUMAN, 
@@ -141,14 +146,33 @@ function initMastersOfBattleRuntimeConstants() {
 				50, 4, 
 				50, 50, 
 				MASTERS_OF_BATTLE.Constants.Unit.Action.SWORD_HIT, 
-				new MASTERS_OF_BATTLE.AtlasImagesBundle(
-						MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["body"]["male"], 
-						MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["torso"]["chain_armor_torso"]
-						),
+				[
+				 	MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["body"]["male"], 
+					MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["torso"]["chain_armor_torso"]
+				],
 				MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left],
-				new MASTERS_OF_BATTLE.AtlasImagesBundle(
-						MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["body"]["male"], 
-						MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["torso"]["chain_armor_torso"]
-						),
+				[
+				 	MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["body"]["male"], 
+					MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["torso"]["chain_armor_torso"]
+				],
 				MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left]);	
+	MASTERS_OF_BATTLE.Constants.Unit.Characteristics.Human.ARCHER = new MASTERS_OF_BATTLE.UnitCharacteristics("Human archer", 
+			MASTERS_OF_BATTLE.Constants.Faction.HUMAN, 
+			1, 1, 
+			50, 4, 
+			50, 30, 
+			MASTERS_OF_BATTLE.Constants.Unit.Action.ARROW_HIT, 
+			[
+			 	MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["body"]["male"], 
+				MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Standing]["torso"]["leather_armor_torso"]
+			],
+			MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left],
+			[
+			 	MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["body"]["male"], 
+				MASTERS_OF_BATTLE.Constants.Unit.ImageAtlas[MASTERS_OF_BATTLE.Constants.Unit.State.Walking]["torso"]["leather_armor_torso"]
+			],
+			MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left]);	
+	
+	
+	
 };
