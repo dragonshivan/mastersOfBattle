@@ -54,7 +54,7 @@ REVERSI.GameUIController.prototype.beginGame =  function(cpuPlayer, minimaxEvalu
 	
 	var inputEventQueue = new GAME_LOOP.Queue(10);
 	new GAME_LOOP.CanvasMouseListener(inputEventQueue);
-	var gameLoop = new GAME_LOOP.GameLoop(gameEntities, inputEventQueue, REVERSI.UI.BOARD_SIZE, REVERSI.UI.BOARD_SIZE);
+	var gameLoop = new GAME_LOOP.GameLoop(gameEntities, inputEventQueue, REVERSI.UI.BOARD_SIZE, REVERSI.UI.BOARD_SIZE, true);
 	gameLoop.start();
 };
 

@@ -39,10 +39,12 @@ GAME_LOOP.GameLoop = function(gameEntities, inputEventQueue, canvasWidth, canvas
 	this.FPSLocalIntervalSeconds = 2;
 	this.framesCountLocal = 0;
 	this.framesCountLocalStartTimeMs = 0;
-	this.framesCountGlobal = 0;
-	this.framesCountGlobalStartTimeMs = 0;
-	this.FPSLocal = GAME_LOOP.DESIRED_FPS;
-	this.FPSGlobal = GAME_LOOP.DESIRED_FPS
+	this.FPSLocal = 0;
+	
+	this.UPSLocalIntervalSeconds = 2;
+	this.updatesCountLocal = 0;
+	this.updatesCountLocalStartTimeMs = 0;
+	this.UPSLocal = 0;
 };
 
 /**
@@ -50,6 +52,7 @@ GAME_LOOP.GameLoop = function(gameEntities, inputEventQueue, canvasWidth, canvas
  */
 GAME_LOOP.GameLoop.prototype.start = function() {
 	this.initFPSMeasurement();
+	this.initUPSMeasurement();
 	this.lastLoopCallTime = this.getCurrentTimeMs();
 	this.update();
 };
@@ -92,8 +95,8 @@ GAME_LOOP.GameLoop.prototype.processInput = function() {
 GAME_LOOP.GameLoop.prototype.updateState = function() {		
 	for(var i = 0; i < this.gameEntities.length; i++) {
 		this.gameEntities[i].updateState();
-	}	
-	this.updateFPS();
+	}
+	this.updateUPS();
 };
 
 /**
@@ -107,8 +110,10 @@ GAME_LOOP.GameLoop.prototype.updateGraphics = function() {
 		this.gameEntities[i].updateGraphics(this.context);
 	}
 	
+	this.updateFPS();
 	if(this.showFPS) {
 		this.displayFPS();
+		this.displayUPS();
 	}
 };	
 
@@ -135,7 +140,13 @@ GAME_LOOP.GameLoop.prototype.gameEntityZIndexSort = function(gameEntity1, gameEn
  */
 GAME_LOOP.GameLoop.prototype.initFPSMeasurement = function() {
 	this.framesCountLocalStartTimeMs = this.getCurrentTimeMs();
-	this.framesCountGlobalStartTimeMs = this.getCurrentTimeMs();
+};
+
+/**
+ * @private
+ */
+GAME_LOOP.GameLoop.prototype.initUPSMeasurement = function() {
+	this.updatesCountLocalStartTimeMs = this.getCurrentTimeMs();
 };
 
 /**
@@ -151,12 +162,21 @@ GAME_LOOP.GameLoop.prototype.updateFPS = function() {
 		this.framesCountLocalStartTimeMs = currentTimeMs;
 	}
 	this.framesCountLocal++;
+};
+
+/**
+ * @private
+ */
+GAME_LOOP.GameLoop.prototype.updateUPS = function() {
+	var currentTimeMs = this.getCurrentTimeMs();
 	
-	var passedTimeGlobalSeconds = (currentTimeMs - this.framesCountGlobalStartTimeMs) / 1000;
-	if(passedTimeGlobalSeconds != 0) {
-		this.FPSGlobal =this.framesCountGlobal / passedTimeGlobalSeconds;
+	var passedTimeLocalSeconds = (currentTimeMs - this.updatesCountLocalStartTimeMs) / 1000;
+	if(passedTimeLocalSeconds >= this.UPSLocalIntervalSeconds) {
+		this.UPSLocal = this.updatesCountLocal / passedTimeLocalSeconds;
+		this.updatesCountLocal = 0;
+		this.updatesCountLocalStartTimeMs = currentTimeMs;
 	}
-	this.framesCountGlobal++;
+	this.updatesCountLocal++;
 };
 
 /**
@@ -164,11 +184,23 @@ GAME_LOOP.GameLoop.prototype.updateFPS = function() {
  */
 GAME_LOOP.GameLoop.prototype.displayFPS = function() {
 	this.context.fillStyle = 'rgba(225,225,225,0.75)';
-	this.context.fillRect(0,0,83,15);
+	this.context.fillRect(0,0,53,15);
 	
 	this.context.fillStyle = "black";	
 	this.context.font = "11px Arial";
-	this.context.fillText("FPS: " + this.round1Decimal(this.FPSLocal) + " | " + this.round1Decimal(this.FPSGlobal), 2, 12);
+	this.context.fillText("FPS: " + this.round1Decimal(this.FPSLocal), 2, 12);
+};
+
+/**
+ * @private
+ */
+GAME_LOOP.GameLoop.prototype.displayUPS = function() {
+	this.context.fillStyle = 'rgba(225,225,225,0.75)';
+	this.context.fillRect(0,15,53,15);
+	
+	this.context.fillStyle = "black";	
+	this.context.font = "11px Arial";
+	this.context.fillText("UPS: " + this.round1Decimal(this.UPSLocal), 2, 27);
 };
 
 /**
