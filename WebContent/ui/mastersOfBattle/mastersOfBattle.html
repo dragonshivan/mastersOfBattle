@@ -77,7 +77,8 @@
 		new GAME_LOOP.CanvasMouseListener(inputEventQueue);
 		var gameLoop = new GAME_LOOP.GameLoop(gameEntities, inputEventQueue, 
 				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE);
+				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE,
+				true);
 		gameLoop.start();
 	};
 	
