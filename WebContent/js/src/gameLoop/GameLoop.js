@@ -9,7 +9,7 @@ var GAME_LOOP = GAME_LOOP = GAME_LOOP || {};
  * @param {Boolean} displayFPS
  * @constructor
  */
-GAME_LOOP.GameLoop = function(gameEntities, inputEventQueue, canvasWidth, canvasHeight, showFPS) {
+GAME_LOOP.GameLoop = function(gameEntities, inputEventQueue, canvasWidth, canvasHeight, debugMode) {
 	
 	window.requestAnimationFrame = 
 			window.requestAnimationFrame || /* Firefox 23 / IE 10 / Chrome */
@@ -29,22 +29,22 @@ GAME_LOOP.GameLoop = function(gameEntities, inputEventQueue, canvasWidth, canvas
 	this.canvas.width=canvasWidth;
 	this.canvas.height=canvasHeight;
 	
-	this.showFPS = showFPS === undefined ? false: showFPS;
+	this.debugMode = debugMode === undefined ? false: debugMode;
 	
 	this.context = this.canvas.getContext('2d');
 	
 	this.lastLoopCallTime = 0;
 	this.accumulatedTimeMs = 0;
 	
-	this.FPSLocalIntervalSeconds = 2;
-	this.framesCountLocal = 0;
-	this.framesCountLocalStartTimeMs = 0;
-	this.FPSLocal = 0;
+	this.updateMetricsIntervalSeconds = 2;
 	
-	this.UPSLocalIntervalSeconds = 2;
-	this.updatesCountLocal = 0;
-	this.updatesCountLocalStartTimeMs = 0;
-	this.UPSLocal = 0;
+	this.framesCount = 0;
+	this.framesCountStartTimeMs = 0;
+	this.FPS = 0;
+	
+	this.updatesCount = 0;
+	this.updatesCountStartTimeMs = 0;
+	this.UPS = 0;
 };
 
 /**
@@ -111,9 +111,10 @@ GAME_LOOP.GameLoop.prototype.updateGraphics = function() {
 	}
 	
 	this.updateFPS();
-	if(this.showFPS) {
+	if(this.debugMode) {
 		this.displayFPS();
 		this.displayUPS();
+		this.displayIPS();
 	}
 };	
 
@@ -139,14 +140,14 @@ GAME_LOOP.GameLoop.prototype.gameEntityZIndexSort = function(gameEntity1, gameEn
  * @private
  */
 GAME_LOOP.GameLoop.prototype.initFPSMeasurement = function() {
-	this.framesCountLocalStartTimeMs = this.getCurrentTimeMs();
+	this.framesCountStartTimeMs = this.getCurrentTimeMs();
 };
 
 /**
  * @private
  */
 GAME_LOOP.GameLoop.prototype.initUPSMeasurement = function() {
-	this.updatesCountLocalStartTimeMs = this.getCurrentTimeMs();
+	this.updatesCountStartTimeMs = this.getCurrentTimeMs();
 };
 
 /**
@@ -155,13 +156,13 @@ GAME_LOOP.GameLoop.prototype.initUPSMeasurement = function() {
 GAME_LOOP.GameLoop.prototype.updateFPS = function() {
 	var currentTimeMs = this.getCurrentTimeMs();
 	
-	var passedTimeLocalSeconds = (currentTimeMs - this.framesCountLocalStartTimeMs) / 1000;
-	if(passedTimeLocalSeconds >= this.FPSLocalIntervalSeconds) {
-		this.FPSLocal = this.framesCountLocal / passedTimeLocalSeconds;
-		this.framesCountLocal = 0;
-		this.framesCountLocalStartTimeMs = currentTimeMs;
+	var passedTimeSeconds = (currentTimeMs - this.framesCountStartTimeMs) / 1000;
+	if(passedTimeSeconds >= this.updateMetricsIntervalSeconds) {
+		this.FPS = this.framesCount / passedTimeSeconds;
+		this.framesCount = 0;
+		this.framesCountStartTimeMs = currentTimeMs;
 	}
-	this.framesCountLocal++;
+	this.framesCount++;
 };
 
 /**
@@ -170,37 +171,46 @@ GAME_LOOP.GameLoop.prototype.updateFPS = function() {
 GAME_LOOP.GameLoop.prototype.updateUPS = function() {
 	var currentTimeMs = this.getCurrentTimeMs();
 	
-	var passedTimeLocalSeconds = (currentTimeMs - this.updatesCountLocalStartTimeMs) / 1000;
-	if(passedTimeLocalSeconds >= this.UPSLocalIntervalSeconds) {
-		this.UPSLocal = this.updatesCountLocal / passedTimeLocalSeconds;
-		this.updatesCountLocal = 0;
-		this.updatesCountLocalStartTimeMs = currentTimeMs;
+	var passedTimeSeconds = (currentTimeMs - this.updatesCountStartTimeMs) / 1000;
+	if(passedTimeSeconds >= this.updateMetricsIntervalSeconds) {
+		this.UPS = this.updatesCount / passedTimeSeconds;
+		this.updatesCount = 0;
+		this.updatesCountStartTimeMs = currentTimeMs;
 	}
-	this.updatesCountLocal++;
+	this.updatesCount++;
 };
 
 /**
  * @private
  */
 GAME_LOOP.GameLoop.prototype.displayFPS = function() {
-	this.context.fillStyle = 'rgba(225,225,225,0.75)';
-	this.context.fillRect(0,0,53,15);
-	
-	this.context.fillStyle = "black";	
-	this.context.font = "11px Arial";
-	this.context.fillText("FPS: " + this.round1Decimal(this.FPSLocal), 2, 12);
+	this.displayUpdateMetric("FPS", this.round1Decimal(this.FPS), 0);
 };
 
 /**
  * @private
  */
 GAME_LOOP.GameLoop.prototype.displayUPS = function() {
-	this.context.fillStyle = 'rgba(225,225,225,0.75)';
-	this.context.fillRect(0,15,53,15);
+	this.displayUpdateMetric("UPS", this.round1Decimal(this.UPS), 1);
+};
+
+/**
+ * @private
+ */
+GAME_LOOP.GameLoop.prototype.displayIPS = function() {
+	this.displayUpdateMetric("I", this.inputEventQueue.getSize(), 2);
+};
+
+/**
+ * @private
+ */
+GAME_LOOP.GameLoop.prototype.displayUpdateMetric = function(metricLabel, metricValue, rowIndex) {
+	this.context.fillStyle = 'rgba(225, 225, 225, 0.75)';
+	this.context.fillRect(0, rowIndex * 15, 83, 15);
 	
 	this.context.fillStyle = "black";	
 	this.context.font = "11px Arial";
-	this.context.fillText("UPS: " + this.round1Decimal(this.UPSLocal), 2, 27);
+	this.context.fillText(metricLabel + ": " + this.round1Decimal(metricValue), 2, 12 + (rowIndex * 15));
 };
 
 /**

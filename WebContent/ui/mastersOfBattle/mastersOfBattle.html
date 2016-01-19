@@ -8,7 +8,10 @@
 	
 	<link type="text/css" href="css/mastersOfBattle.css" rel="stylesheet">
 	
+	<!-- JQuery -->
 	<script src="../../js/lib/jquery-1.11.1_.js"></script>
+	
+	<!-- Game loop -->
 	<script src="../../js/src/gameLoop/GameLoopConstants.js"></script>
 	<script src="../../js/src/gameLoop/GameLoop.js"></script>
 	<script src="../../js/src/gameLoop/GameEntity.js"></script>
@@ -16,6 +19,7 @@
 	<script src="../../js/src/gameLoop/utils/AtlasAnimation.js"></script>
 	<script src="../../js/src/gameLoop/utils/ImageCrop.js"></script>
 	
+	<!-- MiniMax -->
 	<script src="../../js/src/minimax/MinimaxConstants.js"></script>
 	<script src="../../js/src/minimax/Evaluator.js"></script>
 	<script src="../../js/src/minimax/GameArbiter.js"></script>
@@ -23,63 +27,47 @@
 	<script src="../../js/src/minimax/GameTree.js"></script>
 	<script src="../../js/src/minimax/GameTreeNodesHashtable.js"></script>
 	
+	<!-- 
+					Masters Of Battle 
+	-->
+	
+	<!-- constants -->
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleConstantsNamespace.js"></script>	
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleConstants.js"></script>
 	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleRuntimeConstants.js"></script>
-	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldGameEntity.js"></script>
-	<script src="../../js/src/mastersOfBattle/gameElements/BattleFieldCellGameEntity.js"></script>
-	<script src="../../js/src/mastersOfBattle/gameElements/UnitGameEntity.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/UnitFactory.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/action/UnitAction.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/action/UnitActionEffect.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/action/effect/UnitMeleeDamageEffect.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/action/effect/UnitArrowDamageEffect.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/UnitCharacteristics.js"></script>
-	<script src="../../js/src/mastersOfBattle/unit/UnitStats.js"></script>	
+	<script src="../../js/src/mastersOfBattle/constants/MastersOfBattleRuntimeUnitConstants.js"></script>
+	
+	<!-- gameArbitration -->
+	<script src="../../js/src/mastersOfBattle/gameArbitration/MastersOfBattleGameArbiter.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameArbitration/MastersOfBattlePlayerController.js"></script>
+	
+	<!-- gameEtities -->
+	<script src="../../js/src/mastersOfBattle/gameEntities/BattleFieldGameEntity.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameEntities/BattleFieldGameEntityFactory.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameEntities/UnitActionEffectGameEntity.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameEntities/UnitGameEntity.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameEntities/UnitGameEntityFactory.js"></script>
+	
+	<!-- gameState -->
+	<script src="../../js/src/mastersOfBattle/gameState/battleField/BattleFieldCharacteristics.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/action/UnitAction.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/action/UnitActionEffect.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/action/effect/UnitArrowDamageEffect.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/action/effect/UnitMeleeDamageEffect.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/UnitCharacteristics.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/unit/UnitStats.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/MastersOfBattleGameState.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/UnitGameState.js"></script>
+	<script src="../../js/src/mastersOfBattle/gameState/UnitGameStateFactory.js"></script>
+	
+	<!-- MAIN -->
+	<script src="../../js/src/mastersOfBattle/MastersOfBattle.js"></script>
 	
 	<script>
 	$(document).ready(main);
 	
 	function main() {
-		initMastersOfBattleRuntimeConstants();
-		
-		var battleFieldEntity = new MASTERS_OF_BATTLE.BattleFieldGameEntity();
-		
-		var gameEntities = [];
-		var gameEntitiesIdx = 0;
-		gameEntities[gameEntitiesIdx++] = battleFieldEntity;
-		
-		for(var cellX = 0; cellX < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS; cellX++) {
-			for(var cellY = 0; cellY < MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS; cellY++) {
-				gameEntities[gameEntitiesIdx++] = new MASTERS_OF_BATTLE.BattleFieldCellGameEntity(cellX, cellY);
-			}
-		}
-		
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 2, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 4, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 6, 22);
-		
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 1, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 3, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 5, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 7, 22);
-		
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 10, 2, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 4, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 6, 22);
-		
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 1, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 3, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 5, 22);
-		gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 7, 22);
-		
-		var inputEventQueue = new GAME_LOOP.Queue(10);
-		new GAME_LOOP.CanvasMouseListener(inputEventQueue);
-		var gameLoop = new GAME_LOOP.GameLoop(gameEntities, inputEventQueue, 
-				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_COLUMNS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-				MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELLS_ROWS * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE,
-				true);
-		gameLoop.start();
+		new MASTERS_OF_BATTLE.MastersOfBattle().startGame();
 	};
 	
 	</script>

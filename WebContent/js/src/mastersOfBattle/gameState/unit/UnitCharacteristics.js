@@ -5,11 +5,7 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 		sizeRows, sizeColumns,
 		sequence, movePoints, 
 		defense, hitPoints,
-		unitAction,
-		standingLeftAtlasImageAtlases,
-		standingLeftImageCrops,
-		walkingLeftAtlasImageAtlases,
-		walkingLeftImageCrops) {
+		unitActionCharacteristics) {
 	
 	this.characteristicsId = characteristicsId;
 	this.faction = faction;
@@ -19,9 +15,5 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 	this.movePoints = movePoints;
 	this.defense = defense;
 	this.hitPoints = hitPoints;
-	this.unitAction = unitAction;
-	this.standingLeftAtlasImageAtlases = standingLeftAtlasImageAtlases;
-	this.standingLeftImageCrops = standingLeftImageCrops;
-	this.walkingLeftAtlasImageAtlases = walkingLeftAtlasImageAtlases;
-	this.walkingLeftImageCrops = walkingLeftImageCrops;
+	this.unitActionCharacteristics = unitActionCharacteristics;
 };

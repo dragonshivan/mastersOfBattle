@@ -1,7 +1,9 @@
 var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
-MASTERS_OF_BATTLE.MastersOfBattleGameState = function(playerToMove) {
+MASTERS_OF_BATTLE.MastersOfBattleGameState = function(playerToMove, battleFieldStartingGameState, unitsStartingGameStates) {
 	MINIMAX.GameState.call(this, playerToMove);
+	this.battleFieldGameState = battleFieldStartingGameState;
+	this.unitsGameState = unitsStartingGameStates;
 };
 
 /**

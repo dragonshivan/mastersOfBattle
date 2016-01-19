@@ -1,12 +1,12 @@
 var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
-MASTERS_OF_BATTLE.UnitAction = function(actionId, range, areaRows, areaColumns, restiction, effect) {
+MASTERS_OF_BATTLE.UnitAction = function(actionId, range, areaRows, areaColumns, restiction, effectCharacteristics) {
 	this.actionId = actionId;
 	this.range = range;
 	this.areaRows = areaRows;
 	this.areaColumns = areaColumns;
 	this.restiction = restiction;
-	this.effect = effect;
+	this.effectCharacteristics = effectCharacteristics;
 };
 
 

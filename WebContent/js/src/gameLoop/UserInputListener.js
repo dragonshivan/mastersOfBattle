@@ -54,6 +54,14 @@ GAME_LOOP.Queue.prototype.isFull = function() {
 };
 
 /**
+ * @public
+ * @returns {Number}
+ */
+GAME_LOOP.Queue.prototype.getSize = function() {
+	return this.size;
+};
+
+/**
  * @constructor
  * @param {GAME_LOOP.Queue} inputEventQueue
  * @public
