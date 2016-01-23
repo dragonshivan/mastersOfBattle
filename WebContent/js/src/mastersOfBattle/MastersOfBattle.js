@@ -28,22 +28,22 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 	gameEntities[gameEntitiesIdx++] = battleFieldEntity;
 	
 	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 2, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 4, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 6, 22);
-	
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 1, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 3, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 5, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 7, 22);
-	
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 4, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 1, 6, 22);
+//	
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 1, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 3, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 5, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_1, 0, 7, 22);
+//	
 	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 2, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 4, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 6, 22);
-	
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 1, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 3, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 5, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 7, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 4, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanArcher(MINIMAX.PLAYER_2, 10, 6, 22);
+//	
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 1, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 3, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 5, 22);
+//	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createHumanSwordsman(MINIMAX.PLAYER_2, 11, 7, 22);
 	
 	var inputEventQueue = new GAME_LOOP.Queue(10);
 	new GAME_LOOP.CanvasMouseListener(inputEventQueue);

@@ -18,7 +18,8 @@ MASTERS_OF_BATTLE.UnitGameEntityFactory.prototype.createHumanSwordsman = functio
 			null,
 			null,
 			null,
-			unitGameState);
+			unitGameState,
+			this.getStartingOrientation(owningPlayer));
 	return unit;
 };
 
@@ -36,6 +37,15 @@ MASTERS_OF_BATTLE.UnitGameEntityFactory.prototype.createHumanArcher = function(o
 			null,
 			null,
 			null,
-			unitGameState);
+			unitGameState,
+			this.getStartingOrientation(owningPlayer));
 	return unit;
 };
+
+MASTERS_OF_BATTLE.UnitGameEntityFactory.prototype.getStartingOrientation = function(player) {
+	if(player.playerNumber === 1) {
+		return MASTERS_OF_BATTLE.Constants.Unit.Orientation.Right;
+	} else if(player.playerNumber === 2) {
+		return MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left;
+	}
+}

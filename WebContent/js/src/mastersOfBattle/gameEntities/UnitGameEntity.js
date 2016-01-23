@@ -6,7 +6,9 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(
 		imageAtlasesPerformingAction,
 		imageAtlasesTakingDamage,
 		imageAtlasesActionEffect,
-		unitGameState) {
+		unitGameState,
+		startingOrienation) {
+	
 	GAME_LOOP.GameEntity.call(this, 
 			unitGameState.unitStats.startCellX * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			unitGameState.unitStats.startCellY * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
@@ -14,18 +16,23 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(
 			unitGameState.unitCharacteristics.sizeColumns * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			MASTERS_OF_BATTLE.Constants.ZINDEX_UNIT);
 	
-	this.imageAtlasesStanding = imageAtlasesStanding;
-	this.imageAtlasesWalking = imageAtlasesWalking;
-	this.imageAtlasesPerformingAction = imageAtlasesPerformingAction;
-	this.imageAtlasesTakingDamage = imageAtlasesTakingDamage;
+	this.imageAtlasesByState = [];
+	this.imageAtlasesByState[MASTERS_OF_BATTLE.Constants.Unit.State.Standing] = imageAtlasesStanding;
+	this.imageAtlasesByState[MASTERS_OF_BATTLE.Constants.Unit.State.Walking] = imageAtlasesWalking;
+	this.imageAtlasesByState[MASTERS_OF_BATTLE.Constants.Unit.State.PerformingAction] = imageAtlasesPerformingAction;
+	this.imageAtlasesByState[MASTERS_OF_BATTLE.Constants.Unit.State.TakingDamage] = imageAtlasesTakingDamage;
+
 	this.imageAtlasesActionEffect = imageAtlasesActionEffect;
+	
 	this.unitGameState = unitGameState;
 	
-	this.currentAnimation = new GAME_LOOP.AtlasAnimation(
-			this.imageAtlasesWalking, 
-			MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left], 
-			12,
-			true);
+	this.state = MASTERS_OF_BATTLE.Constants.Unit.State.Standing;
+	this.orientation = startingOrienation;
+	
+	this.animationsByStateAndOrientation = [];
+	this.initAnimationsByStateAndOrientation();
+		
+	this.currentAnimation = this.animationsByStateAndOrientation[this.state][this.orientation];
 	this.currentAnimation.start();
 };
 
@@ -57,4 +64,46 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateGraphics = function(context) {
 //	context.fillText(this.unitGameState.unitStats.topUnitHitPoints + "/" + this.unitGameState.unitStats.currentTopUnitHitPoints + " Hp", this.x + 2, this.y + 25);
 //	context.fillText(this.unitGameState.unitStats.owningPlayer, this.x + 2, this.y + 35);
 //	context.fillText("Standing", this.x + 2, this.y + 45);
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.initAnimationsByStateAndOrientation = function() {
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Standing] = [];
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Up] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Standing, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Up, 1, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Down] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Standing, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Down, 1, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Standing, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left, 1, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Standing][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Right] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Standing, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Right, 1, true);
+	//TODO Standing diagonals
+	
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Walking] = [];
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Up] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Walking, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Up, 12, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Down] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Walking, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Down, 12, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Walking, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Left, 12, true);
+	this.animationsByStateAndOrientation[MASTERS_OF_BATTLE.Constants.Unit.State.Walking][MASTERS_OF_BATTLE.Constants.Unit.Orientation.Right] = 
+		this.initAnimationByStateAndOrientation(MASTERS_OF_BATTLE.Constants.Unit.State.Walking, MASTERS_OF_BATTLE.Constants.Unit.Orientation.Right, 12, true);
+	//TODO Walking diagonals
+	
+	//TODO other states
+
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.initAnimationByStateAndOrientation = function(state, orientation, fps, wrapAround) {
+	return this.animationsByStateAndOrientation[state][orientation] = 
+		new GAME_LOOP.AtlasAnimation(
+				this.imageAtlasesByState[state], 
+				MASTERS_OF_BATTLE.Constants.Unit.FrameCrops[state][orientation], 
+				fps,
+				wrapAround);
 };

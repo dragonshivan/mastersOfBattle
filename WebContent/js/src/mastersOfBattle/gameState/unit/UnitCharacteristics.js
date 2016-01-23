@@ -5,7 +5,7 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 		sizeRows, sizeColumns,
 		sequence, movePoints, 
 		defense, hitPoints,
-		unitActionCharacteristics) {
+		unitAction) {
 	
 	this.characteristicsId = characteristicsId;
 	this.faction = faction;
@@ -15,5 +15,5 @@ MASTERS_OF_BATTLE.UnitCharacteristics = function(characteristicsId,
 	this.movePoints = movePoints;
 	this.defense = defense;
 	this.hitPoints = hitPoints;
-	this.unitActionCharacteristics = unitActionCharacteristics;
+	this.unitAction = unitAction;
 };
