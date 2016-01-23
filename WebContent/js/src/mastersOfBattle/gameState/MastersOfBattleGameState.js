@@ -9,9 +9,9 @@ MASTERS_OF_BATTLE.MastersOfBattleGameState = function(playerToMove, battleFieldS
 /**
  * @public
  * @param {MINIMAX.Player} player
- * @param {Object} action
+ * @param {MASTERS_OF_BATTLE.MastersOfBattlePlayerMove} mastersOfBattlePlayerMove
  */
-MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype.applyPlayerMove = function(player, action) {
+MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype.applyPlayerMove = function(player, mastersOfBattlePlayerMove) {
 	throw "Not implemented";
 };
 
