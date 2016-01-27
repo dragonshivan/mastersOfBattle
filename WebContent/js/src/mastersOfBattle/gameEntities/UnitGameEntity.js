@@ -24,7 +24,7 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(
 
 	this.imageAtlasesActionEffect = imageAtlasesActionEffect;
 	
-	this.unitGameState = unitGameState;
+	this.updateUnitGameState(unitGameState);
 	
 	this.state = MASTERS_OF_BATTLE.Constants.Unit.State.Standing;
 	this.orientation = startingOrienation;
@@ -64,6 +64,23 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateGraphics = function(context) {
 //	context.fillText(this.unitGameState.unitStats.topUnitHitPoints + "/" + this.unitGameState.unitStats.currentTopUnitHitPoints + " Hp", this.x + 2, this.y + 25);
 //	context.fillText(this.unitGameState.unitStats.owningPlayer, this.x + 2, this.y + 35);
 //	context.fillText("Standing", this.x + 2, this.y + 45);
+};
+
+/**
+ * @public
+ * 
+ */
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateUnitGameState = function(unitGameState) {
+	//TODO
+	this.unitGameState = unitGameState;
+};
+
+/**
+ * @public
+ * 
+ */
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.getUnitGameState = function(unitGameState) {
+	return this.unitGameState;
 };
 
 /**

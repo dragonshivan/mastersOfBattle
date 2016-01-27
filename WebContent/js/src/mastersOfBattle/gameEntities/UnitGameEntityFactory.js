@@ -4,6 +4,16 @@ MASTERS_OF_BATTLE.UnitGameEntityFactory = function(unitGameStateFactory) {
 	this.unitGameStateFactory = unitGameStateFactory;
 };
 
+MASTERS_OF_BATTLE.UnitGameEntityFactory.prototype.createUnit = function(unitId, owningPlayer, startCellX, startCellY, membersCount) {
+	if(unitId === "humanSwordsman") {
+		return this.createHumanSwordsman(owningPlayer, startCellX, startCellY, membersCount);
+	} else if(unitId === "humanArcher") {
+		return this.createHumanArcher(owningPlayer, startCellX, startCellY, membersCount);
+	} else {
+		throw "No entity definition for unitId >" + unitId + "< !";
+	}
+};
+
 MASTERS_OF_BATTLE.UnitGameEntityFactory.prototype.createHumanSwordsman = function(owningPlayer, startCellX, startCellY, membersCount) {
 	var unitGameState = this.unitGameStateFactory.createHumanSwordsman(owningPlayer, startCellX, startCellY, membersCount);
 	var unit = new MASTERS_OF_BATTLE.UnitGameEntity(
