@@ -50,5 +50,11 @@ function initMastersOfBattleRuntimeConstants() {
 	 */
 	MASTERS_OF_BATTLE.Constants.Unit.GAME_STATE_FACTORY = new MASTERS_OF_BATTLE.UnitGameStateFactory();
 	MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY = new MASTERS_OF_BATTLE.UnitGameEntityFactory(MASTERS_OF_BATTLE.Constants.Unit.GAME_STATE_FACTORY);
+	
+	/*
+	 * utils
+	 */
+	MASTERS_OF_BATTLE.Constants.Utils = [];
+	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS = new MASTERS_OF_BATTLE.ArrayUtils();
 
 };

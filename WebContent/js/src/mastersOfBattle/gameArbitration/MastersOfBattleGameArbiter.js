@@ -17,8 +17,8 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.constructor = MASTERS_OF_
 /**
  * @public
  */
-MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initGame = function(unitGameStateSummaries) {
-	this.initCurrentMastersOfBattleGameState(unitGameStateSummaries);
+MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initGame = function(unitGameEntities) {
+	this.initCurrentMastersOfBattleGameState(unitGameEntities);
 	this.setUnitsTurnOrder();
 	var unitInTurn = this.getUnitInTurn();
 	//TODO
@@ -64,8 +64,7 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getUnitInTurn = function(
 /**
  * @private
  */
-MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initCurrentMastersOfBattleGameState = function(unitGameStateSummaries) {
+MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initCurrentMastersOfBattleGameState = function(unitGameEntities) {
 	//TODO
-	this.currentMastersOfBattleGameState =
-		new MASTERS_OF_BATTLE.MastersOfBattleGameState(playerToMove, battleFieldStartingGameState, unitsStartingGameStates);
+	//this.currentMastersOfBattleGameState = ...
 };

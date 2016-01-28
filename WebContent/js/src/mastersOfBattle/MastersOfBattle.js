@@ -27,8 +27,12 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 	var gameEntitiesIdx = 0;
 	gameEntities[gameEntitiesIdx++] = battleFieldEntity;
 	
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createUnit("humanSwordsman", MINIMAX.PLAYER_1, 1, 2, 22);
-	gameEntities[gameEntitiesIdx++] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createUnit("humanArcher", MINIMAX.PLAYER_2, 10, 2, 22);
+	var unitGameEntities = this.initUnitGameEntities([
+	                                                  new MASTERS_OF_BATTLE.UnitGameStateSummary("humanSwordsman", MINIMAX.PLAYER_1, 1, 2, 22),
+	                                                  new MASTERS_OF_BATTLE.UnitGameStateSummary("humanArcher", MINIMAX.PLAYER_2, 10, 2, 22)]);
+	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS.appendArray(gameEntities, unitGameEntities);
+	
+	//add game arbiter entity, and tell it to init game
 	
 	var inputEventQueue = new GAME_LOOP.Queue(10);
 	new GAME_LOOP.CanvasMouseListener(inputEventQueue);
@@ -45,5 +49,22 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 MASTERS_OF_BATTLE.MastersOfBattle.prototype.initConstants = function() {
 	initMastersOfBattleRuntimeConstants();
 	initMastersOfBattleRuntimeUnitConstants();
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.MastersOfBattle.prototype.initUnitGameEntities = function(unitGameStateSummaries) {
+	var unitGameEntities = new Array();
+	for(var i = 0; i < unitGameStateSummaries.length; i++) {
+		var unitGameStateSummary = unitGameStateSummaries[i];
+		unitGameEntities[i] = MASTERS_OF_BATTLE.Constants.Unit.GAME_ENTITY_FACTORY.createUnit(
+				unitGameStateSummary.unitId,
+				unitGameStateSummary.owningPlayer,
+				unitGameStateSummary.cellX,
+				unitGameStateSummary.cellY,
+				unitGameStateSummary.membersCount);
+	}
+	return unitGameEntities;
 };
 
