@@ -3,7 +3,7 @@ var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter = function(player1Controller, player2Controller) {
 	GAME_LOOP.GameEntity.call(this, 0, 0, 0, 0);
 	
-	this.mastersOfBattleGameState = mastersOfBattleGameState;
+	this.mastersOfBattleGameState = null;
 	this.playerControllerMap = [];
 	this.playerControllerMap[1] = player1Controller; 
 	this.playerControllerMap[2] = player2Controller;
@@ -19,12 +19,8 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.constructor = MASTERS_OF_
  */
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initGame = function(unitGameEntities) {
 	this.initCurrentMastersOfBattleGameState(unitGameEntities);
-	this.setUnitsTurnOrder();
-	var unitInTurn = this.getUnitInTurn();
+	var playerMove = this.playerControllerMap[this.currentMastersOfBattleGameState.playerToMove.playerNumber].getPlayerMove(this.currentMastersOfBattleGameState);
 	//TODO
-	//get unit in turn owning player
-	//get associated player controler
-	//ask controller to get the player's move
 	//apply move to game state to get next game state
 };
 
@@ -50,21 +46,46 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.updateGraphics =  functio
 /**
  * @private
  */
-MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.setUnitsTurnOrder = function() {
-	//TODO
-};
-
-/**
- * @private
- */
-MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getUnitInTurn = function() {
-	//TODO
-};
-
-/**
- * @private
- */
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.initCurrentMastersOfBattleGameState = function(unitGameEntities) {
-	//TODO
-	//this.currentMastersOfBattleGameState = ...
+	var unitGameStates = this.extractUnitGameStates(unitGameEntities);
+	this.setUnitsTurnOrder(unitGameStates);
+	var unitInTurnGameState = this.getUnitInTurnGameState(unitGameStates);
+	this.currentMastersOfBattleGameState = new MASTERS_OF_BATTLE.MastersOfBattleGameState(unitInTurnGameState.unitStats.owningPlayer, null, unitGameStates);
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.extractUnitGameStates = function(unitGameEntities) {
+	var unitGameStates = new Array();
+	for(var i = 0; i < unitGameEntities.length; i++) {
+		unitGameStates[i] = unitGameEntities[i].getUnitGameState();
+	}
+	return unitGameStates;
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.setUnitsTurnOrder = function(unitGameStates) {
+	//TODO: for units with same sequence, randomize their order
+	unitGameStates.sort(function(u1, u2) {
+		return u1.unitCharacteristics.sequence - u2.unitCharacteristics.sequence;
+	});
+};
+
+/**
+ * @private
+ */
+MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getUnitInTurnGameState = function(unitGameStates) {
+	if(this.currentMastersOfBattleGameState == null) {
+		return unitGameStates[0]; 
+	}
+	
+	var lastMove = this.currentMastersOfBattleGameState.getLastMove();
+	var nextIndex = lastMove.unitInTurnGameStateIndex + 1;
+	if(nextIndex >= unitGameStates.length) {
+		nextIndex = 0;
+	}
+	return unitGameStates[nextIndex];
 };

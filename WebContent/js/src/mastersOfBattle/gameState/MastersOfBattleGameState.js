@@ -4,6 +4,7 @@ MASTERS_OF_BATTLE.MastersOfBattleGameState = function(playerToMove, battleFieldS
 	MINIMAX.GameState.call(this, playerToMove);
 	this.battleFieldGameState = battleFieldStartingGameState;
 	this.unitsGameState = unitsStartingGameStates;
+	this.lastMove = null;
 };
 
 /**
@@ -20,7 +21,7 @@ MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype.applyPlayerMove = function(
  * @returns {Object}
  */
 MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype.getLastMove = function() {
-	throw "Not implemented";
+	return this.lastMove;
 };
 
 /**

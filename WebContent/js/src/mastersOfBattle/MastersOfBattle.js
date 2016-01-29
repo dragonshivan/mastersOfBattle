@@ -32,7 +32,11 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 	                                                  new MASTERS_OF_BATTLE.UnitGameStateSummary("humanArcher", MINIMAX.PLAYER_2, 10, 2, 22)]);
 	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS.appendArray(gameEntities, unitGameEntities);
 	
-	//add game arbiter entity, and tell it to init game
+	var gameArbiter = new MASTERS_OF_BATTLE.MastersOfBattleGameArbiter(new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false), 
+			new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false));
+	
+	gameEntities[gameEntities.length] = gameArbiter;
+	gameArbiter.initGame(unitGameEntities);
 	
 	var inputEventQueue = new GAME_LOOP.Queue(10);
 	new GAME_LOOP.CanvasMouseListener(inputEventQueue);

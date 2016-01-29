@@ -79,7 +79,7 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateUnitGameState = function(unitGa
  * @public
  * 
  */
-MASTERS_OF_BATTLE.UnitGameEntity.prototype.getUnitGameState = function(unitGameState) {
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.getUnitGameState = function() {
 	return this.unitGameState;
 };
 

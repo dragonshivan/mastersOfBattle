@@ -161,14 +161,14 @@ function initMastersOfBattleRuntimeUnitConstants() {
 	 */
 	MASTERS_OF_BATTLE.Constants.Unit.Characteristics.Human.SWORDSMAN = new MASTERS_OF_BATTLE.UnitCharacteristics("[H] Swordsman", 
 			MASTERS_OF_BATTLE.Constants.Faction.HUMAN, 
-			1, 1, 
+			1, 100, 
 			50, 4, 
 			50, 50,
 			MASTERS_OF_BATTLE.Constants.Unit.Action.SWORD_HIT);	
 	
 	MASTERS_OF_BATTLE.Constants.Unit.Characteristics.Human.ARCHER = new MASTERS_OF_BATTLE.UnitCharacteristics("[H] Archer", 
 			MASTERS_OF_BATTLE.Constants.Faction.HUMAN, 
-			1, 1, 
+			1, 75, 
 			50, 4, 
 			50, 30,
 			MASTERS_OF_BATTLE.Constants.Unit.Action.ARROW_HIT);	
