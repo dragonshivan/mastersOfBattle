@@ -33,10 +33,10 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS.appendArray(gameEntities, unitGameEntities);
 	
 	var gameArbiter = new MASTERS_OF_BATTLE.MastersOfBattleGameArbiter(new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false), 
-			new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false));
+			new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false),
+			unitGameEntities);
 	
 	gameEntities[gameEntities.length] = gameArbiter;
-	gameArbiter.initGame(unitGameEntities);
 	
 	var inputEventQueue = new GAME_LOOP.Queue(10);
 	new GAME_LOOP.CanvasMouseListener(inputEventQueue);

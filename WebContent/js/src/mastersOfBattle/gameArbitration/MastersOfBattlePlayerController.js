@@ -2,18 +2,18 @@ var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
 MASTERS_OF_BATTLE.MastersOfBattlePlayerController = function(isCPUPlayer) {
 	this.isCPUPlayer = isCPUPlayer;
+	
+	this.unitToMoveGameState = null
+	this.currentMastersOfBattleGameState = null;
+	
 };
 
-/**
- * 
- * @param {MASTERS_OF_BATTLE.MastersOfBattleGameStte} mastersOfBattleGameState
- * @returns {MASTERS_OF_BATTLE.MastersOfBattlePlayerMove} 
- */
-MASTERS_OF_BATTLE.MastersOfBattlePlayerController.prototype.getPlayerMove = function(mastersOfBattleGameState) {
-	console.log("player controller getPlayerMove");
+
+MASTERS_OF_BATTLE.MastersOfBattlePlayerController.prototype.getPlayerMove = function(inputEvent, unitToMoveGameState, mastersOfBattleGameState) {
+	console.log("getPlayerMove");
 	if(this.isCPUPlayer) {
 		//resolve next move with MINIMAX
 	} else {
-		//wait for human player to input next move
+		//if valid, create player move from input event, else return null
 	}
 };
