@@ -129,6 +129,10 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getUnitInTurnGameState = 
  * @private
  */
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.updateUnitToMove  = function() {
+	var update = new MASTERS_OF_BATTLE.UnitStats();
+	update.isUnitToMove = true;
+	MASTERS_OF_BATTLE.Constants.Utils.ObjectUtils.updateNonEmptyFields(update,
+			this.currentUnitToMoveGameState.unitStats);
 	//highlight new unit to move
 	//unhilight previous unit to move
 	//mark reachable cells

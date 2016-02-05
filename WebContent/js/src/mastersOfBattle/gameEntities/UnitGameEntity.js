@@ -24,7 +24,7 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(
 
 	this.imageAtlasesActionEffect = imageAtlasesActionEffect;
 	
-	this.updateUnitGameState(unitGameState);
+	this.unitGameState = unitGameState;
 	
 	this.state = MASTERS_OF_BATTLE.Constants.Unit.State.Standing;
 	this.orientation = startingOrienation;
@@ -51,6 +51,12 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateState = function() {
  * @param {CanvasRenderingContext2D} context
  */
 MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateGraphics = function(context) {
+	if(this.unitGameState.unitStats.isUnitToMove) {
+		context.strokeStyle = "grey";
+		context.rect(this.x, this.y, this.width, this.height);
+		context.stroke();
+	}
+	
 	this.currentAnimation.onGraphicsUpdate(context, this.x, this.y);
 	
 //	context.strokeStyle = "grey";
@@ -70,9 +76,9 @@ MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateGraphics = function(context) {
  * @public
  * 
  */
-MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateUnitGameState = function(unitGameState) {
-	//TODO
-	this.unitGameState = unitGameState;
+MASTERS_OF_BATTLE.UnitGameEntity.prototype.updateUnitStats = function(unitStats) {
+	MASTERS_OF_BATTLE.Constants.Utils.ObjectUtils.updateNonEmptyFields(unitStats,
+			this.unitGameState.unitStats);
 };
 
 /**

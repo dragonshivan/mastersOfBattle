@@ -56,5 +56,6 @@ function initMastersOfBattleRuntimeConstants() {
 	 */
 	MASTERS_OF_BATTLE.Constants.Utils = [];
 	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS = new MASTERS_OF_BATTLE.ArrayUtils();
+	MASTERS_OF_BATTLE.Constants.Utils.ObjectUtils = new GAME_LOOP.ObjectUtils();
 
 };
