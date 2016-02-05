@@ -32,8 +32,8 @@ MASTERS_OF_BATTLE.MastersOfBattle.prototype.startGame = function() {
 	                                                  new MASTERS_OF_BATTLE.UnitGameStateSummary("humanArcher", MINIMAX.PLAYER_2, 10, 2, 22)]);
 	MASTERS_OF_BATTLE.Constants.Utils.ARRAY_UTILS.appendArray(gameEntities, unitGameEntities);
 	
-	var gameArbiter = new MASTERS_OF_BATTLE.MastersOfBattleGameArbiter(new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false), 
-			new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(false),
+	var gameArbiter = new MASTERS_OF_BATTLE.MastersOfBattleGameArbiter(new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(), 
+			new MASTERS_OF_BATTLE.MastersOfBattlePlayerController(),
 			unitGameEntities);
 	
 	gameEntities[gameEntities.length] = gameArbiter;

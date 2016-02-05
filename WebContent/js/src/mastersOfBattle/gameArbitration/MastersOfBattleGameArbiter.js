@@ -28,6 +28,7 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.processInput =  function(
 	case MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_PLAYER_MOVE: {
 		if(this.isInputEventValidPlayerMove(inputEvent)) {
 			this.currentValidPlayerMoveInputEvent = inputEvent;
+			this.gameArbitrationState = MASTERS_OF_BATTLE.Constants.GameArbitration.State.APPLYING_PLAYER_MOVE;
 		}
 		break;
 	}
@@ -46,12 +47,17 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.updateState =  function()
 	}
 	case MASTERS_OF_BATTLE.Constants.GameArbitration.State.INFORMING_NEXT_PLAYER_TO_MOVE: {
 		this.updateUnitToMove();
-		this.gameArbitrationState = MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_PLAYER_MOVE;
+		this.getPlayerMove();
+		if(this.currentPlayerMove != null) {
+			this.applyPlayerMove();
+		} else {
+			this.gameArbitrationState = MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_PLAYER_MOVE;
+		}
 		break;
 	}
 	case MASTERS_OF_BATTLE.Constants.GameArbitration.State.APPLYING_PLAYER_MOVE: {
 		this.applyPlayerMove();
-		his.gameArbitrationState = MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_ANIMATIONS_TO_FINISH;
+		this.gameArbitrationState = MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_ANIMATIONS_TO_FINISH;
 		break;
 	}
 	case MASTERS_OF_BATTLE.Constants.GameArbitration.State.WAITING_FOR_ANIMATIONS_TO_FINISH: {
@@ -144,6 +150,8 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.updateUnitToMove  = funct
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.applyPlayerMove  = function() {
 	var playerMove = this.getPlayerMove();
 	//TODO apply the move
+	this.currentValidPlayerMoveInputEvent = null;
+	this.currentPlayerMove = null;
 };
 
 /**
@@ -152,8 +160,7 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.applyPlayerMove  = functi
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getPlayerMove  = function() {
 	var currentPlayerController = this.playerControllerMap[this.currentMastersOfBattleGameState.playerToMove.playerNumber];
 	this.currentPlayerMove = currentPlayerController.getPlayerMove(
-			this.currentValidPlayerMoveInputEvent, 
-			this.currentUnitToMoveGameState, 
+			this.currentValidPlayerMoveInputEvent,
 			this.currentMastersOfBattleGameState);
 };
 
@@ -161,6 +168,10 @@ MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.getPlayerMove  = function
  * @private
  */
 MASTERS_OF_BATTLE.MastersOfBattleGameArbiter.prototype.isInputEventValidPlayerMove  = function(inputEvent) {
+	if(inputEvent.type != GAME_LOOP.IO.MOUSE_UP ||
+			inputEvent.button != GAME_LOOP.IO.MOUSE_BUTTON_LEFT) {
+		return false;
+	}
 	//TODO
 	return false;
 };

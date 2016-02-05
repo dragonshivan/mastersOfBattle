@@ -13,7 +13,7 @@ MASTERS_OF_BATTLE.UnitGameEntity = function(
 			unitGameState.unitStats.startCellX * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			unitGameState.unitStats.startCellY * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			unitGameState.unitCharacteristics.sizeColumns * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
-			unitGameState.unitCharacteristics.sizeColumns * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
+			unitGameState.unitCharacteristics.sizeRows * MASTERS_OF_BATTLE.Constants.BATTLE_FIELD_CELL_SIZE, 
 			MASTERS_OF_BATTLE.Constants.ZINDEX_UNIT);
 	
 	this.imageAtlasesByState = [];

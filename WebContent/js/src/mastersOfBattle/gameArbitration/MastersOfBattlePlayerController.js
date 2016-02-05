@@ -1,19 +1,16 @@
 var MASTERS_OF_BATTLE = MASTERS_OF_BATTLE || {};
 
-MASTERS_OF_BATTLE.MastersOfBattlePlayerController = function(isCPUPlayer) {
-	this.isCPUPlayer = isCPUPlayer;
-	
+MASTERS_OF_BATTLE.MastersOfBattlePlayerController = function() {
 	this.unitToMoveGameState = null
 	this.currentMastersOfBattleGameState = null;
 	
 };
 
-
-MASTERS_OF_BATTLE.MastersOfBattlePlayerController.prototype.getPlayerMove = function(inputEvent, unitToMoveGameState, mastersOfBattleGameState) {
+/**
+ * @public
+ */
+MASTERS_OF_BATTLE.MastersOfBattlePlayerController.prototype.getPlayerMove = function(inputEvent, mastersOfBattleGameState) {
 	console.log("getPlayerMove");
-	if(this.isCPUPlayer) {
-		//resolve next move with MINIMAX
-	} else {
-		//if valid, create player move from input event, else return null
-	}
+	//TODO translate input into PlayerMove
+	return null;
 };
