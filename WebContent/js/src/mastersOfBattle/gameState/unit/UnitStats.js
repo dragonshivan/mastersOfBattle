@@ -4,6 +4,8 @@ MASTERS_OF_BATTLE.UnitStats = function(unitId, owningPlayer, startCellX, startCe
 	this.unitId = unitId;
 	this.owningPlayer = owningPlayer;
 	
+	this.isUnitToMove = false;
+	
 	this.startCellX = startCellX;
 	this.startCellY = startCellY;
 	this.currentCellX = startCellX;

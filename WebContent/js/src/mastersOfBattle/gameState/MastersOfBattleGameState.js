@@ -7,6 +7,9 @@ MASTERS_OF_BATTLE.MastersOfBattleGameState = function(playerToMove, battleFieldS
 	this.lastMove = null;
 };
 
+MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype = Object.create(MINIMAX.GameState.prototype);
+MASTERS_OF_BATTLE.MastersOfBattleGameState.prototype.constructor = MASTERS_OF_BATTLE.MastersOfBattleGameState;
+
 /**
  * @public
  * @param {MINIMAX.Player} player

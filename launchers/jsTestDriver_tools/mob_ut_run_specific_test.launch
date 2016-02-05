@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${env_var:JAVA_HOME}\bin\java.exe"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-jar -Xmx1g ${workspace_loc:/mastersOfBattle/WebContent/js/JsTestDriver-1.3.5.jar} --server http://localhost:42442 --tests AtlasAnimationTestCase#testNonLooping"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-jar -Xmx1g ${workspace_loc:/mastersOfBattle/WebContent/js/JsTestDriver-1.3.5.jar} --server http://localhost:42442 --verbose --tests ObjectUtilsTestCase#testUpdateNonEmptyFields"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/mastersOfBattle/WebContent/js}"/>
 </launchConfiguration>
