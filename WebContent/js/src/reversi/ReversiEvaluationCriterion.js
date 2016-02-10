@@ -45,8 +45,10 @@ REVERSI.EVALUATION_CRITERIA_DICTIONARY = function() {
 			for(var x = 0; x < 8; x++) {
 				if(x % 7 == 0 || y % 8==0) {
 					if(gameState.getTokenType(x, y) === REVERSI.TOKEN_TYPE_WHITE) {
+						//add one if it's on edge (corner included):
 						tokensDifferenceToWhite++;
 						if(x % 7 == 0 && y % 8==0) {
+							//add another 2 if it's on corner:
 							tokensDifferenceToWhite = tokensDifferenceToWhite + 2;
 						}
 					} else if(gameState.getTokenType(x, y) === REVERSI.TOKEN_TYPE_BLACK) {

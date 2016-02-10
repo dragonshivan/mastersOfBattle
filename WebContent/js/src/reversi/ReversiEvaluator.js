@@ -77,16 +77,17 @@ REVERSI.ReversiEvaluator.prototype.evaluate = function(gameState) {
  * @returns {Number}
  */
 REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = function(gameState) {
-	if(gameState.tokensCount < 33) {
-		return this.evaluationHorizon;
-	} else if(gameState.tokensCount < 44) {
-		return this.evaluationHorizon + 1;
-	} else if(gameState.tokensCount < 48) {
-		return this.evaluationHorizon + 2;
-	} else if(gameState.tokensCount < 53){
-		return this.evaluationHorizon + 3;
-	} else {
-		return this.evaluationHorizon + 5;
-	}
+//	if(gameState.tokensCount < 33) {
+//		return this.evaluationHorizon;
+//	} else if(gameState.tokensCount < 44) {
+//		return this.evaluationHorizon + 1;
+//	} else if(gameState.tokensCount < 48) {
+//		return this.evaluationHorizon + 2;
+//	} else if(gameState.tokensCount < 53){
+//		return this.evaluationHorizon + 3;
+//	} else {
+//		return this.evaluationHorizon + 5;
+//	}
+	return 3;
 };
 	
