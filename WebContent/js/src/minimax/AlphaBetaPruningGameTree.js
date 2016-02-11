@@ -28,6 +28,7 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {	
 	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, 0);
+	this.nodesCount++;
 	this.generateAndScoreNodes(rootNode);
 	return rootNode;
 };
@@ -52,41 +53,40 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.generateAndScoreNodes = function(root
 	var st = new Date().getTime();
 	
 	maxDepth = this.evaluator.getEvaluationHorizon(rootNode.gameState) - 1;
-	this.nodesStack.push(rootNode);
-	
-	//TODO TODO TODO
-	while(this.nodesStack.length > 0) {
-		var currentNode = this.nodesStack.pop();
-		while(currentNode.depth < maxDepth) {
-			if(currentNode.isGameEnded()) {
-				this.scoreNode(currentNode);
-			} else {
-				var nextGameStates = this.evaluator.getNextGameStates(currentNode.gameState);
-				var firstChildNode = new MINIMAX.AlphaBetaPruningGameTreeNode(nextGameStates[0], currentNode.depth + 1);
-				for(var i = 1; i < nextGameStates.length; i++) {
-					var child
-				}
-				currentNode = firstChildNode;
-			}
-		}
-		this.scoreNode(currentNode);
-	}
-	
-	
 	var currentNode = rootNode;
-	
-	while(currentNode.depth < maxDepth) {
-		if(currentNode.gameState.isGameEnded()) {
+	this.pushToStack(currentNode);
+	console.log("+++ pushed " + currentNode.gameState.getLastMove().toString());
+	while(this.nodesStack.length > 0) {
+		if(currentNode.depth == maxDepth || currentNode.gameState.isGameEnded()) {
 			this.scoreNode(currentNode);
-			
+			currentNode = this.nodesStack.pop();
+//			console.log("+++ popped " + currentNode.gameState.getLastMove().toString());
 		} else {
-			this.nodesStack.push(currentNode);
-			
+			this.generateImmediateChildren(currentNode);
+			for(var i = 0; i < currentNode.childNodes.length; i++) {
+				this.pushToStack(currentNode.childNodes[i]);
+				console.log("+++ pushed " + currentNode.childNodes[i].gameState.getLastMove().toString());
+			}
 		}
 	}
 	
 	this.nodesGenerationMs = new Date().getTime() - st;
 };
+
+/**
+ * @private
+ */
+MINIMAX.AlphaBetaPruningGameTree.prototype.generateImmediateChildren = function(node) {
+	var childGameStates = this.evaluator.getNextGameStates(node.gameState);
+	for(var i = 0; i < childGameStates.length; i++) {
+		var childGameState = childGameStates[i];
+		var childNode = new MINIMAX.AlphaBetaPruningGameTreeNode(childGameState, node.depth + 1);
+		this.nodesCount++;
+		node.addChildNode(childNode);
+	}
+};
+
+
 
 /**
  * @private
@@ -129,6 +129,28 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.calculateMinimaxScore = function(node
 };
 
 /**
+ * @private
+ * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
+ */
+MINIMAX.AlphaBetaPruningGameTree.prototype.updateAlphaBeta = function(node) {
+	var gameState = node.gameState;
+	var score = node.score;
+	if(node.gameState.getPlayerToMove() === this.evaluator.playerToWin) {
+		this.alpha = this.alpha > score ? this.alpha : score;
+	} else {
+		this.beta = this.beta < score ? this.beta : score;
+	}
+};
+
+/**
+ * @private
+ * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
+ */
+MINIMAX.AlphaBetaPruningGameTree.prototype.pushToStack = function(node) {
+	this.nodesStack.push(node);
+};
+
+/**
  * @public
  * @constructor
  * @param {MINIMAX.GameState} gameState
@@ -136,7 +158,7 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.calculateMinimaxScore = function(node
  */
 MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth) {
 	this.gameState = gameState;
-	this.depth;
+	this.depth = depth;
 	this.score;
 	
 	/**
@@ -159,18 +181,4 @@ MINIMAX.AlphaBetaPruningGameTreeNode.prototype.addChildNode = function(childNode
  */
 MINIMAX.AlphaBetaPruningGameTreeNode.prototype.equals = function(node) {
 	return this.gameState.equals(node.gameState);
-};
-
-/**
- * @private
- * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
- */
-MINIMAX.AlphaBetaPruningGameTreeNode.prototype.updateAlphaBeta = function(node) {
-	var gameState = node.gameState;
-	var score = node.score;
-	if(node.gameState.getPlayerToMove() === this.evaluator.playerToWin) {
-		this.alpha = this.alpha > score ? this.alpha : score;
-	} else {
-		this.beta = this.beta < score ? this.beta : score;
-	}
 };
