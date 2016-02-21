@@ -8,7 +8,7 @@ var REVERSI = REVERSI || {};
 REVERSI.ReversiGameStateHelper = function() {};
 
 /**
- * @private
+ * @public
  * @param {MINIMAX.Player} player
  * @param {REVERSI.ReversiGameState} gameState
  * @returns {REVERSI.ReversiMove[]}
