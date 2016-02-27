@@ -87,7 +87,7 @@ MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth) {
 	/**
 	 * @type MINIMAX.GameStateIterator 
 	 */
-	this.gameStateIterator = //TODO ??? ;
+	//this.gameStateIterator = //TODO ??? ;
 };
 
 /**
