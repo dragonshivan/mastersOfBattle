@@ -92,8 +92,10 @@ ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 	
 	console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 	
-	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiEvaluatorPlayer2ShouldWin);
-	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
-	console.log("nodes count: " + alphaBetaPruningGameTree.nodesCount);
-	console.log("root score: " + alphaBetaPruningGameTreeRootNode.score);
+	//TODO (also don't forget to build the old tree using an evaluator with constant horizon of 3
+	
+//	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiEvaluatorPlayer2ShouldWin);
+//	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
+//	console.log("nodes count: " + alphaBetaPruningGameTree.nodesCount);
+//	console.log("root score: " + alphaBetaPruningGameTreeRootNode.score);
 };
