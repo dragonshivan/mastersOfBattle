@@ -48,10 +48,7 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.toString = function() {
 MINIMAX.AlphaBetaPruningGameTree.prototype.generateAndScoreNodes = function(rootNode) {
 	var st = new Date().getTime();
 	
-	maxDepth = this.evaluator.getEvaluationHorizon(rootNode.gameState) - 1;
-	var currentNode = rootNode;
 	
-	//TODO
 	
 	this.nodesGenerationMs = new Date().getTime() - st;
 };
@@ -87,7 +84,7 @@ MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth) {
 	/**
 	 * @type MINIMAX.GameStateIterator 
 	 */
-	//this.gameStateIterator = //TODO ??? ;
+	this.gameStateIterator = null;
 };
 
 /**
