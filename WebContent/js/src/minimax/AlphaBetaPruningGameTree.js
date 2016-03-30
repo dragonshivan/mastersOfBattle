@@ -23,7 +23,7 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
  * @returns {MINIMAX.AlphaBetaPruningGameTreeNode}
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {	
-	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, 0);
+	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, 0, this.evaluator.getNextGameStatesIterator(gameState));
 	this.nodesCount++;
 	this.generateAndScoreNodes(rootNode);
 	return rootNode;
@@ -79,15 +79,15 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.pushToStack = function(node) {
  * @param {MINIMAX.GameState} gameState
  * @returns {MINIMAX.AlphaBetaPruningGameTreeNode}
  */
-MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth) {
+MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth, nextGameStateIterator) {
 	this.gameState = gameState;
 	this.depth = depth;
 	this.score;
 	
 	/**
-	 * @type MINIMAX.GameStateIterator 
+	 * @type MINIMAX.NextGameStateIterator 
 	 */
-	this.gameStateIterator = //TODO ??? ;
+	this.nextGameStateIterator = nextGameStateIterator ;
 };
 
 /**
@@ -108,25 +108,15 @@ MINIMAX.AlphaBetaPruningGameTreeNode.prototype.equals = function(node) {
 
 /**
  * @private
- * @param {MINIMAX.AlphaBetaPruningGameTreeNode} childNode
- */
-MINIMAX.AlphaBetaPruningGameTreeNode.prototype.addChildNode = function(childNode) {
-	this.childNodes.push(childNode);
-};
-
-/**
- * @private
  * @constructor
  * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
- * @param {Number} depth
  * @param {Number} alpha
  * @param {Number} beta
  * @param {Boolean} maximizingPlayer
  * @returns {MINIMAX.StackArg}
  */
-MINIMAX.StackArg = function(node, depth, alpha, beta, maximizingPlayer) {
+MINIMAX.StackArg = function(node, alpha, beta, maximizingPlayer) {
 	this.node = node;
-	this.depth = depth;
 	this.alpha = alpha;
 	this.beta = beta;
 	this.maximizingPlayer = maximizingPlayer;

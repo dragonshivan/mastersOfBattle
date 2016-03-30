@@ -4,9 +4,9 @@ var MINIMAX = MINIMAX = MINIMAX || {};
  * @public
  * @constructor
  * @param {MINIMAX.GameState} gameState
- * @returns {MINIMAX.GameStateIterator}
+ * @returns {MINIMAX.NextGameStateIterator}
  */
-MINIMAX.GameStateIterator = function(gameState) {
+MINIMAX.NextGameStateIterator = function(gameState) {
 	this.gameState = gameState;
 };
 
@@ -14,7 +14,7 @@ MINIMAX.GameStateIterator = function(gameState) {
  * @public
  * @returns {MINIMAX.GameState}
  */
-MINIMAX.GameStateIterator.prototype.next = function() {
+MINIMAX.NextGameStateIterator.prototype.next = function() {
 	throw "Not implemented";
 };
 
@@ -22,6 +22,6 @@ MINIMAX.GameStateIterator.prototype.next = function() {
  * @public
  * @returns {Boolean}
  */
-MINIMAX.GameStateIterator.prototype.hasNext = function() {
+MINIMAX.NextGameStateIterator.prototype.hasNext = function() {
 	throw "Not implemented";
 };
