@@ -15,7 +15,7 @@ MINIMAX.LazyEvaluator = function(playerToWin) {
  * @param {MINIMAX.GameState} currentGameState
  * @returns {MINIMAX.NextGameStateIterator}
  */
-MINIMAX.LazyEvaluator.prototype.getNextGameStatesIterator = function(currentGameState) {
+MINIMAX.LazyEvaluator.prototype.getNextGameStateIterator = function(gameState) {
 	throw "Not implemented";
 };
 
