@@ -41,7 +41,7 @@ REVERSI.ReversiGameState.prototype.constructor = REVERSI.ReversiGameState;
  * @param {MINIMAX.Player} player
  * @param {REVERSI.Position} position
  */
-MINIMAX.GameState.prototype.applyPlayerMove = function(player, position) {
+REVERSI.ReversiGameState.prototype.applyPlayerMove = function(player, position) {
 	var possibleMoves = REVERSI.REVERSI_GAME_STATE_HELPER.getPossibleMoves(player, this);	
 	var move;
 	for(var i = 0; i < possibleMoves.length; i++) {

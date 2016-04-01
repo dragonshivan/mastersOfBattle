@@ -7,8 +7,8 @@ var REVERSI = REVERSI || {};
  * @returns {REVERSI.ReversiNextGameStateIterator}
  */
 REVERSI.ReversiNextGameStateIterator = function(gameState) {
-	MINIMAX.GameStateIterator.call(this, gameState);
-	this.reversiNextMoveIterator = new ReversiNextMoveIterator(gameState);
+	MINIMAX.NextGameStateIterator.call(this, gameState);
+	this.reversiNextMoveIterator = new REVERSI.ReversiNextMoveIterator(gameState);
 };
 
 REVERSI.ReversiNextGameStateIterator.prototype = Object.create(MINIMAX.NextGameStateIterator.prototype);
