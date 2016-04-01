@@ -12,7 +12,7 @@ MINIMAX.LazyEvaluator = function(playerToWin) {
 
 /**
  * @public
- * @param {MINIMAX.GameState} currentGameState
+ * @param {MINIMAX.GameState} gameState
  * @returns {MINIMAX.NextGameStateIterator}
  */
 MINIMAX.LazyEvaluator.prototype.getNextGameStateIterator = function(gameState) {

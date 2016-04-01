@@ -23,7 +23,7 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
  * @returns {MINIMAX.AlphaBetaPruningGameTreeNode}
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {	
-	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, 0, this.evaluator.getNextGameStatesIterator(gameState));
+	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, this.evaluator.getEvaluationDepth(gameState), this.evaluator);
 	this.nodesCount++;
 	this.generateAndScoreNodes(rootNode);
 	return rootNode;
@@ -48,77 +48,119 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.toString = function() {
 MINIMAX.AlphaBetaPruningGameTree.prototype.generateAndScoreNodes = function(rootNode) {
 	var st = new Date().getTime();
 	this.alphaBeta(rootNode);
-	//TODO 
 	this.nodesGenerationMs = new Date().getTime() - st;
 };
 
 
 MINIMAX.AlphaBetaPruningGameTree.prototype.alphaBeta = function(rootNode) {
-	//TODO
-//	this.stack.push(new MINIMAX.StackArg(rootNode, 4, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true));
-//	while(this.stack.length > 0) {
-//		var arg = this.stack[this.stack.length - 1];
-//		if(arg.depth == 0 || arg.node.gameEnded) {
-//			var v = this.evaluate(arg.node);
-//			arg.node.score = v;
-//			arg = pop(v);				
-//			continue;
-//		}
-//		
-//		if(arg.node.hasNextChildNode()) {
-//			var v = scoreIntermediaryNode(arg);
-//			if(v != null) {
-//				arg.node.score = v;
-//				dumpNode(arg);
-//				if(!(arg.alpha <= arg.beta)) {
-//					arg = pop(v);
-//					continue;
-//				}
-//			}
-//			
-//			arg  = new StackArg(arg.node.nextChild(), arg.depth - 1, arg.alpha, arg.beta, isMaximizing(arg.node));
-//			push(arg);
-//		} else {
-//			var v = scoreIntermediaryNode(arg);
-//			arg.node.score = v;
-//			dumpNode(arg);
-//			arg = pop(v);				
-//		}
-//	}
+	this.push(new MINIMAX.StackArg(rootNode, rootNode.depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true));
+	while(this.stack.length != 0) {
+		var arg = this.peek();
+		if(arg.node.depth == 0 || arg.node.gameEnded) {
+			//evaluate terminal node:
+			var v = this.evaluator.evaluate(arg.node.gameState);
+			arg.node.score = v;
+			arg = pop(v);				
+			continue;
+		}
+		
+		if(arg.node.hasNextChild()) {
+			//score intermediary node:
+			var v = this.evaluator.evaluate(arg.node.gameState);			
+			arg.node.score = v;
+			if(!(arg.alpha <= arg.beta)) {
+				arg = this.pop(v);
+				continue;
+			}			
+			this.nodesCount++;
+			arg  = new MINIMAX.StackArg(arg.node.getNextChildNode(), arg.alpha, arg.beta, this.isMaximizing(arg.node));
+			this.push(arg);
+		} else {
+			//score intermediary node
+			var v = this.evaluator.evaluate(arg.node);
+			arg.node.score = v;
+			arg = this.pop(v);				
+		}
+	}
 };
 
 /**
  * @private
- * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
- * @returns {Number}
- */
-MINIMAX.AlphaBetaPruningGameTree.prototype.evaluate = function(node) {
-	return this.evaluator.evaluate(node.gameState);
+ */ 
+MINIMAX.AlphaBetaPruningGameTree.prototype.pop = function(returnValue) {
+	var arg = this.stack.pop();
+	if(this.stack.length != 0) {
+		this.peek().v = returnValue;
+	}
+	return arg;
+};
+
+/**
+ * @private
+ */ 
+MINIMAX.AlphaBetaPruningGameTree.prototype.push = function(stackArg) {
+	this.stack.push(stackArg);
+};
+
+/**
+ * @private
+ */ 
+MINIMAX.AlphaBetaPruningGameTree.prototype.peek = function() {
+	if(this.stack.length != 0) {
+		return this.stack[this.stack.length - 1];
+	}
+	return null;
+};
+
+/**
+ * @private
+ */ 
+MINIMAX.AlphaBetaPruningGameTree.prototype.isMaximizing = function(node) {
+	return node.gameState.playerToMove === this.evaluator.playerToWin;
 };
 
 /**
  * @public
  * @constructor
  * @param {MINIMAX.GameState} gameState
+ * @param {Number} depth Root node has maximum desired depth. Its immediate children have depth - 1 and so on. We stop when current node's depth is 0.
+ * @param {MINIMAX.LazyEvaluator} lazyEvaluator
  * @returns {MINIMAX.AlphaBetaPruningGameTreeNode}
  */
-MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth, nextGameStateIterator) {
+MINIMAX.AlphaBetaPruningGameTreeNode = function(gameState, depth, lazyEvaluator) {
 	this.gameState = gameState;
 	this.depth = depth;
+		
 	this.score;
 	
-	/**
-	 * @type MINIMAX.NextGameStateIterator 
-	 */
-	this.nextGameStateIterator = nextGameStateIterator ;
+	this.gameEnded = this.gameState.isGameEnded();
+	
+	if(!gameState.isGameEnded()) {
+		this.lazyEvaluator = lazyEvaluator;
+		this.childNodes = new Array();
+		this.nextGameStateIterator = this.lazyEvaluator.getNextGameStateIterator(this.gameState);
+	}		
 };
 
 /**
  * @private
- * @param {MINIMAX.AlphaBetaPruningGameTreeNode} childNode
  */
-MINIMAX.AlphaBetaPruningGameTreeNode.prototype.addChildNode = function(childNode) {
-	this.childNodes.push(childNode);
+MINIMAX.AlphaBetaPruningGameTreeNode.prototype.getNextChildNode = function() {
+	var nextChildNode = null;
+	if(this.nextGameStateIterator.hasNext()) {
+		var nextGameState = this.nextGameStateIterator.next();
+		nextChildNode = new MINIMAX.AlphaBetaPruningGameTreeNode(nextGameState, this.depth - 1, 
+				this.lazyEvaluator);
+		this.childNodes.push(childNode);
+	}
+	return nextChildNode;
+};
+
+/**
+ * @private
+ */
+MINIMAX.AlphaBetaPruningGameTreeNode.prototype.hasNextChild = function() {
+	return !this.gameEnded && this.nextGameStateIterator.hasNext();
 };
 
 /**

@@ -86,21 +86,29 @@ ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 		}
 	}
 	
+	console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+	
 	var gameTree = new MINIMAX.GameTree(reversiEvaluatorPlayer2ShouldWin);
 	var rootNode = gameTree.grow(gameState);
+	
 	console.log("Nodes: : " + gameTree.nodesCount + " | Transitions : " + gameTree.transitionsCount + " | Evaluation horizon : " + reversiEvaluatorPlayer2ShouldWin.getEvaluationHorizon(gameState));
 	console.log("Root node score : " + rootNode.score);
 	
-	console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+	console.log("AB |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 	
-	//TODO do the same using ABTree:
-//	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiEvaluatorPlayer2ShouldWin);
-//	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
-//	console.log("nodes count: " + alphaBetaPruningGameTree.nodesCount);
-//	console.log("root score: " + alphaBetaPruningGameTreeRootNode.score);
+	var reversiLazyEvaluatorPlayer2ShouldWin = new REVERSI.ReversiLazyEvaluator(MINIMAX.PLAYER_2);
+	reversiLazyEvaluatorPlayer2ShouldWin.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
 	
+	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiLazyEvaluatorPlayer2ShouldWin);
+	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
+	
+	console.log("Nodes: : " + alphaBetaPruningGameTree.nodesCount + " | Transitions : " + alphaBetaPruningGameTree.transitionsCount + " | Evaluation horizon : " + reversiLazyEvaluatorPlayer2ShouldWin.getEvaluationDepth(gameState));
+	console.log("Root node score : " + alphaBetaPruningGameTreeRootNode.score);	
+	
+	assertEquals(rootNode.score, alphaBetaPruningGameTreeRootNode.score);
 	
 	//unmock everything before test ends
 	REVERSI.REVERSI_TEST_MOCKER.unmockReversiGameStateMove();
 	REVERSI.REVERSI_TEST_MOCKER.unmockReversiEvaluatorGetEvaluationHorizon();
+	
 };
