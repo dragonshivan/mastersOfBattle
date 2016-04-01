@@ -53,31 +53,33 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.generateAndScoreNodes = function(root
 
 
 MINIMAX.AlphaBetaPruningGameTree.prototype.alphaBeta = function(rootNode) {
-	this.push(new MINIMAX.StackArg(rootNode, rootNode.depth, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true));
+	this.push(new MINIMAX.StackArg(rootNode, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, true));
 	while(this.stack.length != 0) {
 		var arg = this.peek();
 		if(arg.node.depth == 0 || arg.node.gameEnded) {
 			//evaluate terminal node:
 			var v = this.evaluator.evaluate(arg.node.gameState);
 			arg.node.score = v;
-			arg = pop(v);				
+			arg = this.pop(v);				
 			continue;
 		}
 		
 		if(arg.node.hasNextChild()) {
 			//score intermediary node:
-			var v = this.evaluator.evaluate(arg.node.gameState);			
-			arg.node.score = v;
-			if(!(arg.alpha <= arg.beta)) {
-				arg = this.pop(v);
-				continue;
-			}			
+			var v = this.scoreItermediaryNode(arg);	
+			if(v != null) {
+				arg.node.score = v;
+				if(!(arg.alpha <= arg.beta)) {
+					arg = this.pop(v);
+					continue;
+				}	
+			}
 			this.nodesCount++;
 			arg  = new MINIMAX.StackArg(arg.node.getNextChildNode(), arg.alpha, arg.beta, this.isMaximizing(arg.node));
 			this.push(arg);
 		} else {
 			//score intermediary node
-			var v = this.evaluator.evaluate(arg.node);
+			var v = this.scoreItermediaryNode(arg);
 			arg.node.score = v;
 			arg = this.pop(v);				
 		}
@@ -120,6 +122,34 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.isMaximizing = function(node) {
 };
 
 /**
+ * @private
+ */ 
+MINIMAX.AlphaBetaPruningGameTree.prototype.scoreItermediaryNode = function(stackArg) {
+	if(stackArg.v == null) {
+		return null;
+	}	
+	
+	var childScore = stackArg.v;
+	var v;
+	
+	if(this.isMaximizing(stackArg.node)) {			
+		if(stackArg.node.score == null) {
+			stackArg.node.score = Number.NEGATIVE_INFINITY;
+		}
+		v = Math.max(stackArg.node.score, childScore);
+		
+		stackArg.alpha = Math.max(stackArg.alpha, v);
+	} else {
+		if(stackArg.node.score == null) {
+			stackArg.node.score = Number.POSITIVE_INFINITY;
+		}
+		v = Math.min(stackArg.node.score, childScore);					
+		stackArg.beta = Math.min(stackArg.beta, v);
+	}
+	return v;
+};
+
+/**
  * @public
  * @constructor
  * @param {MINIMAX.GameState} gameState
@@ -151,7 +181,7 @@ MINIMAX.AlphaBetaPruningGameTreeNode.prototype.getNextChildNode = function() {
 		var nextGameState = this.nextGameStateIterator.next();
 		nextChildNode = new MINIMAX.AlphaBetaPruningGameTreeNode(nextGameState, this.depth - 1, 
 				this.lazyEvaluator);
-		this.childNodes.push(childNode);
+		this.childNodes.push(nextChildNode);
 	}
 	return nextChildNode;
 };

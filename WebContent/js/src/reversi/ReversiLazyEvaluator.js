@@ -89,7 +89,7 @@ REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth = function(gameState) 
 //	} else {
 //		return this.evaluationHorizon + 5;
 //	}
-	return 3;
+	return 2;
 };
 
 /**
