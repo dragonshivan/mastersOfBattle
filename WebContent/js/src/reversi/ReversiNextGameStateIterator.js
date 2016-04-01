@@ -11,7 +11,7 @@ REVERSI.ReversiNextGameStateIterator = function(gameState) {
 	this.reversiNextMoveIterator = new ReversiNextMoveIterator(gameState);
 };
 
-REVERSI.ReversiNextGameStateIterator.prototype = Object.create(MINIMAX.GameStateIterator.prototype);
+REVERSI.ReversiNextGameStateIterator.prototype = Object.create(MINIMAX.NextGameStateIterator.prototype);
 REVERSI.ReversiNextGameStateIterator.prototype.constructor = REVERSI.ReversiNextGameStateIterator;
 
 /**
@@ -40,14 +40,15 @@ REVERSI.ReversiNextGameStateIterator.prototype.hasNext = function() {
  * @constructor
  * @returns {REVERSI.ReversiNextMoveIterator}
  */
-REVERSI.ReversiNextMoveIterator = function(player, gameState) {
+REVERSI.ReversiNextMoveIterator = function(gameState) {
+	this.player = gameState.playerToMove;
 	this.playerTokenType = REVERSI.TOKEN_TYPE_WHITE;
-	if(player === MINIMAX.PLAYER_1) {
+	if(this.player === MINIMAX.PLAYER_1) {
 		this.playerTokenType = REVERSI.TOKEN_TYPE_BLACK;
 	}
 	this.gameState = gameState;
-	this.curentX = 0;
-	this.curentY = 0;
+	this.currentX = 0;
+	this.currentY = 0;
 	this.nextReversiMove = this.findNext();
 };
 
@@ -75,7 +76,7 @@ REVERSI.ReversiNextMoveIterator.prototype.hasNext = function() {
  */
 REVERSI.ReversiNextMoveIterator.prototype.findNext = function() {
 	var reversiMove = null;
-	for(var y = this.currentY; y < 8; y++) {
+	outer: for(var y = this.currentY; y < 8; y++) {
 		for(var x = this.currentX; x < 8; x++) {//for each board position
 			if(this.gameState.getTokenType(x, y) === REVERSI.TOKEN_TYPE_EMPTY) {//start possible-move-check from an empty position
 				var flippedTokensPositions = [];
@@ -111,19 +112,21 @@ REVERSI.ReversiNextMoveIterator.prototype.findNext = function() {
 				}
 				if(flippedTokensPositions.length > 0) {
 					this.currentX = x + 1;
+					this.currentY = y;
 					if(this.currentX == 8) {
 						this.currentX = 0;
-						this.currentY = this.currentY + 1;
+						this.currentY = this.currentY + 1;						
 					}
 					reversiMove = new REVERSI.ReversiMove(
-							player,  
+							this.player,  
 							x, 
 							y, 
 							flippedTokensPositions);
-					break;
+					break outer;
 				}
 			}
 		}
+		this.currentX = 0;
 	}
 	if(reversiMove == null) {
 		this.currentX = 9;

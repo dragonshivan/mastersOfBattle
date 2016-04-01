@@ -3,6 +3,7 @@ ReversiAlphaBetaPruningGameTreeTestCase = TestCase("ReversiAlphaBetaPruningGameT
 ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 	console.log("test");
 	REVERSI.REVERSI_TEST_MOCKER.mockReversiGameStateMove();
+	REVERSI.REVERSI_TEST_MOCKER.mockReversiEvaluatorGetEvaluationHorizon();
 	
 	var gameState = new REVERSI.ReversiGameState(MINIMAX.PLAYER_2);
 	
@@ -77,25 +78,29 @@ ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 	var gameStatesDepth1 = reversiEvaluatorPlayer2ShouldWin.getNextGameStates(gameState);
 	for(var i = 0; i < gameStatesDepth1.length; i++) {
 		var gameStateDepth1 = gameStatesDepth1[i];
-//		console.log("DEPTH 1 " + gameStateDepth1.toString());
+		console.log("DEPTH 1 " + gameStateDepth1.toString());
 		var gameStatesDepth2 = reversiEvaluatorPlayer2ShouldWin.getNextGameStates(gameStateDepth1);
 		for(var j = 0; j < gameStatesDepth2.length; j++) {
 			var gameStateDepth2 = gameStatesDepth2[j];
-//			console.log("	DEPTH 2 [" + reversiEvaluatorPlayer2ShouldWin.evaluate(gameStateDepth2) + "] " + gameStateDepth2.toString());
+			console.log("	DEPTH 2 [" + reversiEvaluatorPlayer2ShouldWin.evaluate(gameStateDepth2) + "] " + gameStateDepth2.toString());
 		}
 	}
 	
 	var gameTree = new MINIMAX.GameTree(reversiEvaluatorPlayer2ShouldWin);
 	var rootNode = gameTree.grow(gameState);
-//	console.log("Nodes: : " + gameTree.nodesCount + " | Transitions : " + gameTree.transitionsCount + " | Evaluation horizon : " + reversiEvaluatorPlayer2ShouldWin.getEvaluationHorizon(gameState));
-//	console.log("Root node score : " + rootNode.score);
+	console.log("Nodes: : " + gameTree.nodesCount + " | Transitions : " + gameTree.transitionsCount + " | Evaluation horizon : " + reversiEvaluatorPlayer2ShouldWin.getEvaluationHorizon(gameState));
+	console.log("Root node score : " + rootNode.score);
 	
 	console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 	
-	//TODO (also don't forget to build the old tree using an evaluator with constant horizon of 3
-	
+	//TODO do the same using ABTree:
 //	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiEvaluatorPlayer2ShouldWin);
 //	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
 //	console.log("nodes count: " + alphaBetaPruningGameTree.nodesCount);
 //	console.log("root score: " + alphaBetaPruningGameTreeRootNode.score);
+	
+	
+	//unmock everything before test ends
+	REVERSI.REVERSI_TEST_MOCKER.unmockReversiGameStateMove();
+	REVERSI.REVERSI_TEST_MOCKER.unmockReversiEvaluatorGetEvaluationHorizon();
 };

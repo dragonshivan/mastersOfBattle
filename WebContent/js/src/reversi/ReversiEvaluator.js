@@ -88,6 +88,5 @@ REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = function(gameState) {
 	} else {
 		return this.evaluationHorizon + 5;
 	}
-//	return 3;
 };
 	

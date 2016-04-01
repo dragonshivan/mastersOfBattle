@@ -312,14 +312,14 @@ REVERSI.ReversiGameState.prototype.updateHashcode = function() {
 /**
  * @public
  * @constructor
- * @param {MINIMAX.Player} player
+ * @param {MINIMAX.Player} playerThatHasMoved
  * @param {Number} x
  * @param {Number} y
  * @param {REVERSI.Position[]} flippedTokensPositions:
  * @returns {REVERSI.ReversiMove}
  */
-REVERSI.ReversiMove = function(player, x, y, flippedTokensPositions) {
-	this.player = player;
+REVERSI.ReversiMove = function(playerThatHasMoved, x, y, flippedTokensPositions) {
+	this.player = playerThatHasMoved;
 	this.position = REVERSI.POSITION[x][y];
 	this.flippedTokensPositions = flippedTokensPositions;
 };
