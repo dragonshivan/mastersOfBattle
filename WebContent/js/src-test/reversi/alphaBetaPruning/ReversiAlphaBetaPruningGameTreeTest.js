@@ -1,7 +1,6 @@
 ReversiAlphaBetaPruningGameTreeTestCase = TestCase("ReversiAlphaBetaPruningGameTreeTestCase");
 
 ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
-	console.log("test");
 	REVERSI.REVERSI_TEST_MOCKER.mockReversiGameStateMove();
 	REVERSI.REVERSI_TEST_MOCKER.mockReversiEvaluatorGetEvaluationHorizon();
 	
@@ -69,43 +68,20 @@ ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 	gameState.move(new REVERSI.ReversiMove(REVERSI.TOKEN_TYPE_WHITE.player, 6, 7, []));
 	gameState.move(new REVERSI.ReversiMove(REVERSI.TOKEN_TYPE_WHITE.player, 7, 7, []));
 	
-	REVERSI.REVERSI_TEST_MOCKER.unmockReversiGameStateMove();
-//	console.log(gameState.toString());
-	
 	var reversiEvaluatorPlayer2ShouldWin = new REVERSI.ReversiEvaluator(MINIMAX.PLAYER_2);
 	reversiEvaluatorPlayer2ShouldWin.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
 	
-	var gameStatesDepth1 = reversiEvaluatorPlayer2ShouldWin.getNextGameStates(gameState);
-	for(var i = 0; i < gameStatesDepth1.length; i++) {
-		var gameStateDepth1 = gameStatesDepth1[i];
-		console.log("DEPTH 1 " + gameStateDepth1.toString());
-		var gameStatesDepth2 = reversiEvaluatorPlayer2ShouldWin.getNextGameStates(gameStateDepth1);
-		for(var j = 0; j < gameStatesDepth2.length; j++) {
-			var gameStateDepth2 = gameStatesDepth2[j];
-			console.log("	DEPTH 2 [" + reversiEvaluatorPlayer2ShouldWin.evaluate(gameStateDepth2) + "] " + gameStateDepth2.toString());
-		}
-	}
-	
-	console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-	
 	var gameTree = new MINIMAX.GameTree(reversiEvaluatorPlayer2ShouldWin);
 	var rootNode = gameTree.grow(gameState);
-	
-	console.log("Nodes: : " + gameTree.nodesCount + " | Transitions : " + gameTree.transitionsCount + " | Evaluation horizon : " + reversiEvaluatorPlayer2ShouldWin.getEvaluationHorizon(gameState));
-	console.log("Root node score : " + rootNode.score);
-	
-	console.log("AB |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-	
+
 	var reversiLazyEvaluatorPlayer2ShouldWin = new REVERSI.ReversiLazyEvaluator(MINIMAX.PLAYER_2);
 	reversiLazyEvaluatorPlayer2ShouldWin.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
 	
 	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiLazyEvaluatorPlayer2ShouldWin);
 	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
 	
-	console.log("Nodes: : " + alphaBetaPruningGameTree.nodesCount + " | Transitions : " + alphaBetaPruningGameTree.transitionsCount + " | Evaluation horizon : " + reversiLazyEvaluatorPlayer2ShouldWin.getEvaluationDepth(gameState));
-	console.log("Root node score : " + alphaBetaPruningGameTreeRootNode.score);	
-	
-	assertEquals(rootNode.score, alphaBetaPruningGameTreeRootNode.score);
+	assertTrue(rootNode.equals(alphaBetaPruningGameTreeRootNode));
+	assertTrue(rootNode.nodesCount >= alphaBetaPruningGameTreeRootNode.nodesCount);
 	
 	//unmock everything before test ends
 	REVERSI.REVERSI_TEST_MOCKER.unmockReversiGameStateMove();

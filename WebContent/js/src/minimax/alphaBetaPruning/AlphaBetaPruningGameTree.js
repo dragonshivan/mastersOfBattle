@@ -12,9 +12,7 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
 	this.stack = new Array();
 	
 	this.nodesCount = 0;
-	this.nodesGenerationMs = 0;
-	this.nodesScoreMs = 0;
-	this.transitionsCount = 0;
+	this.nodesGenerationAndScoringMs = 0;
 };
 
 /**
@@ -34,11 +32,8 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {
  * @returns {String}
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.toString = function() {
-	return this.nodesCount + " nodes (" + this.transitionsCount + " transitions), " +
-		"depth: " + this.intermediateNodesByTreeDepth.length + ", " +
-		"generation time: " + this.nodesGenerationMs +" ms., " +
-		"scoring time: " + this.nodesScoreMs + " ms., " +
-		"total time: " + (this.nodesGenerationMs + this.nodesScoreMs) + " ms.";
+	return this.nodesCount + " nodes " +
+		"total time: " + (this.nodesGenerationAndScoringMs) + " ms.";
 };
 
 /**
@@ -48,7 +43,7 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.toString = function() {
 MINIMAX.AlphaBetaPruningGameTree.prototype.generateAndScoreNodes = function(rootNode) {
 	var st = new Date().getTime();
 	this.alphaBeta(rootNode);
-	this.nodesGenerationMs = new Date().getTime() - st;
+	this.nodesGenerationAndScoringMs = new Date().getTime() - st;
 };
 
 
@@ -57,7 +52,6 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.alphaBeta = function(rootNode) {
 	while(this.stack.length != 0) {
 		var arg = this.peek();
 		if(arg.node.depth == 0 || arg.node.gameEnded) {
-			//evaluate terminal node:
 			var v = this.evaluator.evaluate(arg.node.gameState);
 			arg.node.score = v;
 			arg = this.pop(v);				
@@ -65,7 +59,6 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.alphaBeta = function(rootNode) {
 		}
 		
 		if(arg.node.hasNextChild()) {
-			//score intermediary node:
 			var v = this.scoreItermediaryNode(arg);	
 			if(v != null) {
 				arg.node.score = v;
@@ -78,7 +71,6 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.alphaBeta = function(rootNode) {
 			arg  = new MINIMAX.StackArg(arg.node.getNextChildNode(), arg.alpha, arg.beta, this.isMaximizing(arg.node));
 			this.push(arg);
 		} else {
-			//score intermediary node
 			var v = this.scoreItermediaryNode(arg);
 			arg.node.score = v;
 			arg = this.pop(v);				
