@@ -158,3 +158,11 @@ MINIMAX.GameTreeNode.prototype.addChildNode = function(childNode) {
 MINIMAX.GameTreeNode.prototype.equals = function(node) {
 	return this.gameState.equals(node.gameState);
 };
+
+/**
+ * @private
+ * @returns {String}
+ */
+MINIMAX.GameTreeNode.prototype.toString = function(node) {
+	return this.gameState.toString();
+};

@@ -80,6 +80,9 @@ ReversiAlphaBetaPruningGameTreeTestCase.prototype.testCutOff = function() {
 	var alphaBetaPruningGameTree = new MINIMAX.AlphaBetaPruningGameTree(reversiLazyEvaluatorPlayer2ShouldWin);
 	var alphaBetaPruningGameTreeRootNode = alphaBetaPruningGameTree.grow(gameState);
 	
+	var treePrinter = new MINIMAX.TreePrinter();
+	treePrinter.print(rootNode);
+	
 	assertTrue(rootNode.equals(alphaBetaPruningGameTreeRootNode));
 	assertTrue(rootNode.nodesCount >= alphaBetaPruningGameTreeRootNode.nodesCount);
 	
