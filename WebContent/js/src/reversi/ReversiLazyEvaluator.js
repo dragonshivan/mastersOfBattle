@@ -9,7 +9,7 @@ var REVERSI = REVERSI || {};
 REVERSI.ReversiLazyEvaluator = function(playerToWin) {
 	MINIMAX.LazyEvaluator.call(this, playerToWin);
 	this.evaluationCriteria = [];
-	this.evaluationHorizon = 6;
+	this.evaluationDepth = 5;
 };
 
 REVERSI.ReversiLazyEvaluator.prototype = Object.create(MINIMAX.LazyEvaluator.prototype);
@@ -77,19 +77,17 @@ REVERSI.ReversiLazyEvaluator.prototype.evaluate = function(gameState) {
  * @returns {Number}
  */
 REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth = function(gameState) {
-	//TODO mock this for tests
-//	if(gameState.tokensCount < 33) {
-//		return this.evaluationHorizon;
-//	} else if(gameState.tokensCount < 44) {
-//		return this.evaluationHorizon + 1;
-//	} else if(gameState.tokensCount < 48) {
-//		return this.evaluationHorizon + 2;
-//	} else if(gameState.tokensCount < 53){
-//		return this.evaluationHorizon + 3;
-//	} else {
-//		return this.evaluationHorizon + 5;
-//	}
-	return 2;
+	if(gameState.tokensCount < 33) {
+		return this.evaluationDepth;
+	} else if(gameState.tokensCount < 44) {
+		return this.evaluationDepth + 1;
+	} else if(gameState.tokensCount < 48) {
+		return this.evaluationDepth + 2;
+	} else if(gameState.tokensCount < 53){
+		return this.evaluationDepth + 3;
+	} else {
+		return this.evaluationDepth + 5;
+	}
 };
 
 /**

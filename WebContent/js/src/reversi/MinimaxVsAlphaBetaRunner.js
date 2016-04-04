@@ -7,9 +7,9 @@ var REVERSI = REVERSI || {};
  * @param {REVERSI.ReversiEvaluationCriterion[]} whiteEvaluationHorizon
  * @param {Number} blackEvaluationCriteria
  * @param {Number} blackEvaluationHorizon
- * @returns {REVERSI.CpuVsCpuRunner}
+ * @returns {REVERSI.MinimaxVsAlphaBetaRunner}
  */
-REVERSI.CpuVsCpuRunner = function(
+REVERSI.MinimaxVsAlphaBetaRunner = function(
 		whiteEvaluationCriteria,
 		whiteEvaluationHorizon,
 		blackEvaluationCriteria,
@@ -41,7 +41,7 @@ REVERSI.CpuVsCpuRunner = function(
  * @public
  * @param debugToConsole
  */
-REVERSI.CpuVsCpuRunner.prototype.run = function(debugToConsole) {
+REVERSI.MinimaxVsAlphaBetaRunner.prototype.run = function(debugToConsole) {
 	var currentGameState = this.startingGameState;
 	
 	var lastTurnLeader = MINIMAX.PLAYER_2;
@@ -67,7 +67,7 @@ REVERSI.CpuVsCpuRunner.prototype.run = function(debugToConsole) {
 		blackEvaluationCriteriaLabels.push(this.evaluatorBlack.evaluationCriteria[i].label);
 	}
 	
-	return new REVERSI.CpuVsCpuRunnerResult(
+	return new REVERSI.MinimaxVsAlphaBetaRunnerResult(
 			gameOutcome, 
 			whiteEvaluationCriteriaLabels, 
 			this.evaluatorWhite.evaluationHorizon, 
@@ -81,7 +81,7 @@ REVERSI.CpuVsCpuRunner.prototype.run = function(debugToConsole) {
  * @param {REVERSI.ReversiGameState} gameState
  * @returns {REVERSI.ReversiGameState}
  */
-REVERSI.CpuVsCpuRunner.prototype.turnLeaderMove = function(gameState) {
+REVERSI.MinimaxVsAlphaBetaRunner.prototype.turnLeaderMove = function(gameState) {
 	var leaderArbiter = this.gameArbitersPerPlayer[gameState.playerToMove.playerNumber];
 	return leaderArbiter.advanceGame();
 };
@@ -90,7 +90,7 @@ REVERSI.CpuVsCpuRunner.prototype.turnLeaderMove = function(gameState) {
  * @private
  * @param {REVERSI.ReversiGameState} gameState
  */
-REVERSI.CpuVsCpuRunner.prototype.turnSlaveSynchronize = function(gameState) {
+REVERSI.MinimaxVsAlphaBetaRunner.prototype.turnSlaveSynchronize = function(gameState) {
 	var slaveArbiter = this.gameArbitersPerPlayer[gameState.getLastMove().player.opponent.playerNumber];
 	slaveArbiter.advanceGame(gameState.getLastMove().position);
 };
@@ -103,9 +103,9 @@ REVERSI.CpuVsCpuRunner.prototype.turnSlaveSynchronize = function(gameState) {
  * @param {Number} whiteEvaluationHorizon
  * @param {String[]} blackEvaluationCriteriaLabels
  * @param {Number} blackEvaluationHorizon
- * @returns {REVERSI.CpuVsCpuRunnerResult}
+ * @returns {REVERSI.MinimaxVsAlphaBetaRunnerResult}
  */
-REVERSI.CpuVsCpuRunnerResult = function(
+REVERSI.MinimaxVsAlphaBetaRunnerResult = function(
 		gameOutcome,
 		whiteEvaluationCriteriaLabels,
 		whiteEvaluationHorizon,
@@ -123,7 +123,7 @@ REVERSI.CpuVsCpuRunnerResult = function(
  * @public
  * @returns {String}
  */
-REVERSI.CpuVsCpuRunnerResult.prototype.toString = function() {
+REVERSI.MinimaxVsAlphaBetaRunnerResult.prototype.toString = function() {
 	var str = "";
 	str += "White's evaluators: " + this.whiteEvaluationCriteria + ", horizon=" + this.whiteEvaluationHorizon +"\n";
 	str += "Black's evaluators: " + this.blackEvaluationCriteria + ", horizon=" + this.blackEvaluationHorizon +"\n";

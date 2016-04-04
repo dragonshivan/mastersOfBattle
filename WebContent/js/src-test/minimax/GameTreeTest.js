@@ -17,27 +17,23 @@ GameTreeTestCase.prototype.testGenerateNodes = function() {
 	}
 };
 
-/**
- * XPS Dell Laptop: 
-after 4 moves (4 + 4 tokens on board): GameTreeTest.js:34
->>> 5380 nodes (6060 transitions), depth: 6, generation time: 128 ms., scoring time: 1 ms., total time: 129 ms. GameTreeTest.js:38
->>> load factor: 2.3693121693121695, (4478 elements) / (1890 buckets) GameTreeTest.js:39
- GameTreeTest.js:40
-after 8 moves (8 + 4 tokens on board): GameTreeTest.js:42
->>> 3591 nodes (3897 transitions), depth: 6, generation time: 66 ms., scoring time: 1 ms., total time: 67 ms. GameTreeTest.js:46
->>> load factor: 2.488702928870293, (2974 elements) / (1195 buckets) GameTreeTest.js:47
- GameTreeTest.js:48
-after 12 moves (12 + 4 tokens on board): GameTreeTest.js:50
->>> 7831 nodes (8488 transitions), depth: 6, generation time: 139 ms., scoring time: 1 ms., total time: 140 ms. GameTreeTest.js:54
->>> load factor: 2.5526729559748427, (6494 elements) / (2544 buckets) GameTreeTest.js:55
- GameTreeTest.js:56
-after 16 moves (16 + 4 tokens on board): GameTreeTest.js:58
->>> 2287 nodes (2499 transitions), depth: 6, generation time: 40 ms., scoring time: 0 ms., total time: 40 ms. GameTreeTest.js:62
->>> load factor: 1.8825301204819278, (1875 elements) / (996 buckets) 
+/*
+GameTreeTest.js:42 after 4 moves (4 + 4 tokens on board):
+GameTreeTest.js:46 >>> 5380 nodes (6060 transitions), lastEvaluationHorizon: 5, generation time: 93 ms., scoring time: 4 ms., total time: 97 ms.root score: 6
+GameTreeTest.js:47 
+GameTreeTest.js:49 after 8 moves (8 + 4 tokens on board):
+GameTreeTest.js:53 >>> 3591 nodes (3897 transitions), lastEvaluationHorizon: 5, generation time: 75 ms., scoring time: 2 ms., total time: 77 ms.root score: -15
+GameTreeTest.js:54 
+GameTreeTest.js:56 after 12 moves (12 + 4 tokens on board):
+GameTreeTest.js:60 >>> 7831 nodes (8488 transitions), lastEvaluationHorizon: 5, generation time: 105 ms., scoring time: 6 ms., total time: 111 ms.root score: -30
+GameTreeTest.js:61 
+GameTreeTest.js:63 after 16 moves (16 + 4 tokens on board):
+GameTreeTest.js:67 >>> 2287 nodes (2499 transitions), lastEvaluationHorizon: 5, generation time: 32 ms., scoring time: 1 ms., total time: 33 ms.root score: -39
  * 
  */
 GameTreeTestCase.prototype.testGrowBenchmark = function() {
 	var evaluator = new REVERSI.ReversiEvaluator(MINIMAX.PLAYER_1);
+	evaluator.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
 	var gameTree = new MINIMAX.GameTree(evaluator);
 	var gameState0 = new REVERSI.ReversiGameState(MINIMAX.PLAYER_1);
 	
@@ -48,7 +44,6 @@ GameTreeTestCase.prototype.testGrowBenchmark = function() {
 	gameTree = new MINIMAX.GameTree(evaluator);
 	childNode1 = gameTree.grow(childNode1.gameState);
 	console.log(">>> " + gameTree.toString());
-	console.log(">>> " + gameTree.intermediateNodesByTreeDepth[5].toString());
 	console.log("");
 	
 	console.log("after 8 moves (8 + 4 tokens on board):");
@@ -56,7 +51,6 @@ GameTreeTestCase.prototype.testGrowBenchmark = function() {
 	gameTree = new MINIMAX.GameTree(evaluator);
 	childNode2 = gameTree.grow(childNode2.gameState);
 	console.log(">>> " + gameTree.toString());
-	console.log(">>> " + gameTree.intermediateNodesByTreeDepth[5].toString());
 	console.log("");
 	
 	console.log("after 12 moves (12 + 4 tokens on board):");
@@ -64,7 +58,6 @@ GameTreeTestCase.prototype.testGrowBenchmark = function() {
 	gameTree = new MINIMAX.GameTree(evaluator);
 	childNode3 = gameTree.grow(childNode3.gameState);
 	console.log(">>> " + gameTree.toString());
-	console.log(">>> " + gameTree.intermediateNodesByTreeDepth[5].toString());
 	console.log("");
 	
 	console.log("after 16 moves (16 + 4 tokens on board):");
@@ -72,6 +65,5 @@ GameTreeTestCase.prototype.testGrowBenchmark = function() {
 	gameTree = new MINIMAX.GameTree(evaluator);
 	childNode4 = gameTree.grow(childNode4.gameState);
 	console.log(">>> " + gameTree.toString());
-	console.log(">>> " + gameTree.intermediateNodesByTreeDepth[5].toString());
 	console.log("");
 };

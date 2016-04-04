@@ -14,18 +14,23 @@ MINIMAX.TreePrinter = function() {
  * @returns {String}
  */
 MINIMAX.TreePrinter.prototype.print = function(rootNode) {
-	var curChildNodes = rootNode.childNodes;
+	var nodesCount = 0;
+	var curParents = [rootNode];
+	nodesCount++;
 	console.log(rootNode.toString());
-	while(curChildNodes.length != 0) {
-		console.log("__________________");
-		var nextChildNodes = new Array();
-		for(var i = 0; i < curChildNodes.length; i++) {
-			var curChild = curChildNodes[i];
-			console.log(curChild.toString());
-			for(var j = 0; j < curChild.childNodes.length; j++) {
-				nextChildNodes.push(curChild.childNodes[j]);
+	while(curParents.length != 0) {
+		var nextParents = new Array();
+		for(var i = 0; i < curParents.length; i++) {
+			console.log("|||||||||||||||||||||||||||||||||||||||||||||||");
+			for(var j = 0; j < curParents[i].childNodes.length; j++) {
+				console.log("___________________");
+				console.log("Parent: " + curParents[i].gameState.lastMove.toString());
+				console.log(curParents[i].childNodes[j].gameState.toString());
+				nodesCount++;
+				nextParents.push(curParents[i].childNodes[j]);
 			}
 		}
-		curChildNodes = nextChildNodes;
+		curParents = nextParents;
 	}
+	console.log("nodesCount="+nodesCount);
 }

@@ -31,6 +31,7 @@
 	<script src="../../js/src/reversi/ReversiEvaluator.js"></script>
 	<script src="../../js/src/reversi/ReversiGameState.js"></script>
 	<script src="../../js/src/reversi/ReversiGameStateHelper.js"></script>
+	<script src="../../js/src/reversi/CpuVsCpuRunner.js"></script>
 	<script src="../../js/src/reversi/ui/BoardGameEntity.js"></script>
 	<script src="../../js/src/reversi/ui/BoardCellGameEntity.js"></script>
 	<script src="../../js/src/reversi/ui/GameUIController.js"></script>
@@ -41,6 +42,18 @@
 	$(document).ready(main);
 	
 	function main() {
+		/*
+		var cpuVsCpuRunner = new REVERSI.CpuVsCpuRunner([REVERSI.EVALUATION_CRITERIA_DICTIONARY["MOVE_COUNTER"],
+		                           REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]
+		                           ], 3,
+		                           [REVERSI.EVALUATION_CRITERIA_DICTIONARY["MOVE_COUNTER"],
+			                           REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]
+			                           ]
+		                           , 3);
+		var result = cpuVsCpuRunner.run(true);
+		console.log(result.toString());
+		*/
+		
 		new REVERSI.UIController();
 	};
 	

@@ -13,6 +13,8 @@ MINIMAX.GameTree = function(evaluator) {
 	this.nodesGenerationMs = 0;
 	this.nodesScoreMs = 0;
 	this.transitionsCount = 0;
+	this.lastEvaluationHorizon = 0;
+	this.lastRootScore = 0;
 };
 
 /**
@@ -24,6 +26,7 @@ MINIMAX.GameTree.prototype.grow = function(gameState) {
 	var rootNode = new MINIMAX.GameTreeNode(gameState);
 	this.generateNodes(rootNode);
 	this.scoreNodes();	
+	this.lastRootScore = rootNode.score;
 	return rootNode;
 };
 
@@ -33,10 +36,11 @@ MINIMAX.GameTree.prototype.grow = function(gameState) {
  */
 MINIMAX.GameTree.prototype.toString = function() {
 	return this.nodesCount + " nodes (" + this.transitionsCount + " transitions), " +
-		"depth: " + this.intermediateNodesByTreeDepth.length + ", " +
+		"lastEvaluationHorizon: " + this.lastEvaluationHorizon + ", " +
 		"generation time: " + this.nodesGenerationMs +" ms., " +
 		"scoring time: " + this.nodesScoreMs + " ms., " +
-		"total time: " + (this.nodesGenerationMs + this.nodesScoreMs) + " ms.";
+		"total time: " + (this.nodesGenerationMs + this.nodesScoreMs) + " ms." + 
+		"root score: " + this.lastRootScore;
 };
 
 /**
@@ -51,6 +55,7 @@ MINIMAX.GameTree.prototype.generateNodes = function(rootNode) {
 	this.intermediateNodesByTreeDepth[depth].add(rootNode);
 	this.nodesCount++;
 	this.transitionsCount++;
+	this.lastEvaluationHorizon = this.evaluator.getEvaluationHorizon(rootNode.gameState) - 1;
 	while(!this.intermediateNodesByTreeDepth[depth].isEmpty() && depth < this.evaluator.getEvaluationHorizon(rootNode.gameState) - 1) {
 		this.intermediateNodesByTreeDepth[depth + 1] = new MINIMAX.GameTreeNodesHashTable();
 		for(var i = 0; i < this.intermediateNodesByTreeDepth[depth].getList().length; i++) {

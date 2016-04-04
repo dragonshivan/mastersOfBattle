@@ -13,6 +13,8 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
 	
 	this.nodesCount = 0;
 	this.nodesGenerationAndScoringMs = 0;
+	this.lastEvaluationDepth = 0;
+	this.lastRootScore = 0;
 };
 
 /**
@@ -21,9 +23,11 @@ MINIMAX.AlphaBetaPruningGameTree = function(evaluator) {
  * @returns {MINIMAX.AlphaBetaPruningGameTreeNode}
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {	
+	this.lastEvaluationDepth = this.evaluator.getEvaluationDepth(gameState);
 	var rootNode = new MINIMAX.AlphaBetaPruningGameTreeNode(gameState, this.evaluator.getEvaluationDepth(gameState), this.evaluator);
 	this.nodesCount++;
 	this.generateAndScoreNodes(rootNode);
+	this.lastRootScore = rootNode.score;
 	return rootNode;
 };
 
@@ -33,7 +37,9 @@ MINIMAX.AlphaBetaPruningGameTree.prototype.grow = function(gameState) {
  */
 MINIMAX.AlphaBetaPruningGameTree.prototype.toString = function() {
 	return this.nodesCount + " nodes " +
-		"total time: " + (this.nodesGenerationAndScoringMs) + " ms.";
+		"total time: " + (this.nodesGenerationAndScoringMs) + " ms." + 
+		"lastEvaluationDepth: " + this.lastEvaluationDepth + ", " +
+		"root score: " + this.lastRootScore;
 };
 
 /**
@@ -191,6 +197,14 @@ MINIMAX.AlphaBetaPruningGameTreeNode.prototype.hasNextChild = function() {
  */
 MINIMAX.AlphaBetaPruningGameTreeNode.prototype.equals = function(node) {
 	return this.gameState.equals(node.gameState);
+};
+
+/**
+ * @private
+ * @param {MINIMAX.AlphaBetaPruningGameTreeNode} node
+ */
+MINIMAX.AlphaBetaPruningGameTreeNode.prototype.toString = function(node) {
+	return this.gameState.toString();
 };
 
 /**

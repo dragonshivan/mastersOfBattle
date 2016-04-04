@@ -88,9 +88,15 @@ REVERSI.ReversiTestMocker = function() {
 		this.updateHashcode();	
 	};
 	
-	this.originalReversiGameStateGetEvaluationHorizon = REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon;
+	this.originalReversiEvaluatorGetEvaluationHorizon = REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon;
 	
-	this.mockedReversiGameStateGetEvaluationHorizon = function(gameState) {
+	this.mockedReversiEvaluatorGetEvaluationHorizon = function(gameState) {
+		return 4;
+	};
+	
+	this.originalReversiLazyEvaluatorGetEvaluationDepth = REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth;
+	
+	this.mockedReversiLazyEvaluatorGetEvaluationDepth = function(gameState) {
 		return 3;
 	};
 };
@@ -104,11 +110,19 @@ REVERSI.ReversiTestMocker.prototype.unmockReversiGameStateMove = function() {
 };
 
 REVERSI.ReversiTestMocker.prototype.mockReversiEvaluatorGetEvaluationHorizon = function() {
-	REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = this.mockedReversiGameStateGetEvaluationHorizon;
+	REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = this.mockedReversiEvaluatorGetEvaluationHorizon;
 };
 
 REVERSI.ReversiTestMocker.prototype.unmockReversiEvaluatorGetEvaluationHorizon = function() {
-	REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = this.originalReversiGameStateGetEvaluationHorizon;
+	REVERSI.ReversiEvaluator.prototype.getEvaluationHorizon = this.originalReversiEvaluatorGetEvaluationHorizon;
+};
+
+REVERSI.ReversiTestMocker.prototype.mockReversiLazyEvaluatorGetEvaluationDepth = function() {
+	REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth = this.mockedReversiLazyEvaluatorGetEvaluationDepth;
+};
+
+REVERSI.ReversiTestMocker.prototype.unmockReversiLazyEvaluatorGetEvaluationDepth = function() {
+	REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth = this.originalReversiLazyEvaluatorGetEvaluationDepth;
 };
 
 REVERSI.REVERSI_TEST_MOCKER = new REVERSI.ReversiTestMocker();
