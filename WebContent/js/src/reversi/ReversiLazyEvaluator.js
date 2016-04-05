@@ -77,16 +77,12 @@ REVERSI.ReversiLazyEvaluator.prototype.evaluate = function(gameState) {
  * @returns {Number}
  */
 REVERSI.ReversiLazyEvaluator.prototype.getEvaluationDepth = function(gameState) {
-	if(gameState.tokensCount < 33) {
+	if(gameState.tokensCount < 41) {
 		return this.evaluationDepth;
-	} else if(gameState.tokensCount < 44) {
-		return this.evaluationDepth + 1;
-	} else if(gameState.tokensCount < 48) {
+	} else if(gameState.tokensCount < 49) {
 		return this.evaluationDepth + 2;
-	} else if(gameState.tokensCount < 53){
-		return this.evaluationDepth + 3;
 	} else {
-		return this.evaluationDepth + 5;
+		return this.evaluationDepth + 3;
 	}
 };
 

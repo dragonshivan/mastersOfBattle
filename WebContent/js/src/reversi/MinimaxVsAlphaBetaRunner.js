@@ -1,47 +1,39 @@
 var REVERSI = REVERSI || {};
 
+
 /**
- * @public
  * @constructor
- * @param {REVERSI.ReversiEvaluationCriterion[]} whiteEvaluationCriteria
- * @param {REVERSI.ReversiEvaluationCriterion[]} whiteEvaluationHorizon
- * @param {Number} blackEvaluationCriteria
- * @param {Number} blackEvaluationHorizon
+ * @param {MINIMAX.GameArbiter} gameArbiterBlack Arbiter for player 1
+ * @param {MINIMAX.GameArbiter} gameArbiterWhite Arbiter for player 2
  * @returns {REVERSI.MinimaxVsAlphaBetaRunner}
  */
 REVERSI.MinimaxVsAlphaBetaRunner = function(
-		whiteEvaluationCriteria,
-		whiteEvaluationHorizon,
-		blackEvaluationCriteria,
-		blackEvaluationHorizon) {
+		startingGameState,
+		gameArbiterBlack,
+		gameArbiterWhite) {
 	
-	this.evaluatorWhite = new REVERSI.ReversiEvaluator(MINIMAX.PLAYER_2);
-	for(var i = 0; i < whiteEvaluationCriteria.length; i++) {
-		this.evaluatorWhite.addEvaluationCriterion(whiteEvaluationCriteria[i]);
-	}	
-	this.evaluatorWhite.evaluationHorizon = whiteEvaluationHorizon;
-	this.evaluatorBlack = new REVERSI.ReversiEvaluator(MINIMAX.PLAYER_1);
-	for(var i = 0; i < blackEvaluationCriteria.length; i++) {
-		this.evaluatorBlack.addEvaluationCriterion(blackEvaluationCriteria[i]);
-	}
-	this.evaluatorBlack.evaluationHorizon = blackEvaluationHorizon;
-	
-	this.startingGameState = new REVERSI.ReversiGameState(MINIMAX.PLAYER_1);
-	
-	this.gameArbiterBlack = new MINIMAX.GameArbiter(this.evaluatorBlack, this.startingGameState);
-	this.gameArbiterWhite = new MINIMAX.GameArbiter(this.evaluatorWhite, this.startingGameState);
+	this.startingGameState = startingGameState;
+	this.gameArbiterBlack = gameArbiterBlack;
+	this.gameArbiterWhite = gameArbiterWhite;
 	
 	this.gameArbitersPerPlayer = [];
 	this.gameArbitersPerPlayer[1] = this.gameArbiterBlack;
 	this.gameArbitersPerPlayer[2] = this.gameArbiterWhite;
 	
+	this.moveTimeMsPerPlayer = [];
+	this.moveTimeMsPerPlayer[1] = 0;
+	this.moveTimeMsPerPlayer[2] = 0;	
+	
+	this.moveCountPerPlayer = [];
+	this.moveCountPerPlayer[1] = 0;
+	this.moveCountPerPlayer[2] = 0;
 };
 
 /**
  * @public
  * @param debugToConsole
  */
-REVERSI.MinimaxVsAlphaBetaRunner.prototype.run = function(debugToConsole) {
+REVERSI.MinimaxVsAlphaBetaRunner.prototype.run = function(debugPlayer1, debugPlayer2) {
 	var currentGameState = this.startingGameState;
 	
 	var lastTurnLeader = MINIMAX.PLAYER_2;
@@ -51,28 +43,20 @@ REVERSI.MinimaxVsAlphaBetaRunner.prototype.run = function(debugToConsole) {
 			console.log("!! " + lastTurnLeader.toString() + " moved multiple times in a row !!");
 		}
 		lastTurnLeader = currentGameState.getLastMove().player;
-		if(debugToConsole) {
+		if(debugPlayer1 && lastTurnLeader.playerNumber == 1) {
+			console.log(currentGameState.toString());
+		} else if(debugPlayer2 && lastTurnLeader.playerNumber == 2) {
 			console.log(currentGameState.toString());
 		}
 		this.turnSlaveSynchronize(currentGameState);
 	}
 	
 	var gameOutcome = this.gameArbiterWhite.getGameOutcome(currentGameState);
-	var whiteEvaluationCriteriaLabels = [];
-	for(var i = 0; i < this.evaluatorWhite.evaluationCriteria.length; i++) {
-		whiteEvaluationCriteriaLabels.push(this.evaluatorWhite.evaluationCriteria[i].label);
-	}
-	var blackEvaluationCriteriaLabels = [];
-	for(var i = 0; i < this.evaluatorBlack.evaluationCriteria.length; i++) {
-		blackEvaluationCriteriaLabels.push(this.evaluatorBlack.evaluationCriteria[i].label);
-	}
 	
 	return new REVERSI.MinimaxVsAlphaBetaRunnerResult(
-			gameOutcome, 
-			whiteEvaluationCriteriaLabels, 
-			this.evaluatorWhite.evaluationHorizon, 
-			blackEvaluationCriteriaLabels, 
-			this.evaluatorBlack.evaluationHorizon);	
+			gameOutcome,
+			this.moveTimeMsPerPlayer,
+			this.moveCountPerPlayer);	
 	
 };
 
@@ -82,8 +66,14 @@ REVERSI.MinimaxVsAlphaBetaRunner.prototype.run = function(debugToConsole) {
  * @returns {REVERSI.ReversiGameState}
  */
 REVERSI.MinimaxVsAlphaBetaRunner.prototype.turnLeaderMove = function(gameState) {
-	var leaderArbiter = this.gameArbitersPerPlayer[gameState.playerToMove.playerNumber];
-	return leaderArbiter.advanceGame();
+	var playerNumber = gameState.playerToMove.playerNumber;
+	var leaderArbiter = this.gameArbitersPerPlayer[playerNumber];
+	var st = new Date().getTime();
+	var nextGameState =  leaderArbiter.advanceGame();
+	var et = new Date().getTime();
+	this.moveTimeMsPerPlayer[playerNumber] = this.moveTimeMsPerPlayer[playerNumber] + (et - st);
+	this.moveCountPerPlayer[playerNumber] = this.moveCountPerPlayer[playerNumber] + 1;
+	return nextGameState;
 };
 
 /**
@@ -91,32 +81,25 @@ REVERSI.MinimaxVsAlphaBetaRunner.prototype.turnLeaderMove = function(gameState) 
  * @param {REVERSI.ReversiGameState} gameState
  */
 REVERSI.MinimaxVsAlphaBetaRunner.prototype.turnSlaveSynchronize = function(gameState) {
-	var slaveArbiter = this.gameArbitersPerPlayer[gameState.getLastMove().player.opponent.playerNumber];
+	var playerNumber = gameState.getLastMove().player.opponent.playerNumber;
+	var slaveArbiter = this.gameArbitersPerPlayer[playerNumber];
+	var st = new Date().getTime();
 	slaveArbiter.advanceGame(gameState.getLastMove().position);
+	var et = new Date().getTime();
+	this.moveTimeMsPerPlayer[playerNumber] = this.moveTimeMsPerPlayer[playerNumber] + (et - st); 
+	this.moveCountPerPlayer[playerNumber] = this.moveCountPerPlayer[playerNumber] + 1;
 };
 
 /**
  * @public
  * @constructor
  * @param {MINIMAX.GameOutcome} gameOutcome
- * @param {String[]} whiteEvaluationCriteriaLabels
- * @param {Number} whiteEvaluationHorizon
- * @param {String[]} blackEvaluationCriteriaLabels
- * @param {Number} blackEvaluationHorizon
  * @returns {REVERSI.MinimaxVsAlphaBetaRunnerResult}
  */
-REVERSI.MinimaxVsAlphaBetaRunnerResult = function(
-		gameOutcome,
-		whiteEvaluationCriteriaLabels,
-		whiteEvaluationHorizon,
-		blackEvaluationCriteriaLabels,
-		blackEvaluationHorizon) {
-	
+REVERSI.MinimaxVsAlphaBetaRunnerResult = function(gameOutcome, moveTimeMsPerPlayer, moveCountPerPlayer) {	
 	this.gameOutcome = gameOutcome;
-	this.whiteEvaluationCriteria = whiteEvaluationCriteriaLabels;
-	this.whiteEvaluationHorizon = whiteEvaluationHorizon;
-	this.blackEvaluationCriteria = blackEvaluationCriteriaLabels;
-	this.blackEvaluationHorizon = blackEvaluationHorizon;
+	this.moveTimeMsPerPlayer = moveTimeMsPerPlayer;
+	this.moveCountPerPlayer = moveCountPerPlayer;
 };
 
 /**
@@ -125,8 +108,8 @@ REVERSI.MinimaxVsAlphaBetaRunnerResult = function(
  */
 REVERSI.MinimaxVsAlphaBetaRunnerResult.prototype.toString = function() {
 	var str = "";
-	str += "White's evaluators: " + this.whiteEvaluationCriteria + ", horizon=" + this.whiteEvaluationHorizon +"\n";
-	str += "Black's evaluators: " + this.blackEvaluationCriteria + ", horizon=" + this.blackEvaluationHorizon +"\n";
 	str += "Game outcome: " + this.gameOutcome.toString() +" \n"
+	str += "Player 1 time/moves = " + this.moveTimeMsPerPlayer[1] + "/" + this.moveCountPerPlayer[1] + "=" + (this.moveTimeMsPerPlayer[1] / this.moveCountPerPlayer[1]) + " ms per move" + "\n";
+	str += "Player 2 time/moves = " + this.moveTimeMsPerPlayer[2] + "/" + this.moveCountPerPlayer[2] + "=" + (this.moveTimeMsPerPlayer[2] / this.moveCountPerPlayer[2]) + " ms per move" + "\n";
 	return str;
 };

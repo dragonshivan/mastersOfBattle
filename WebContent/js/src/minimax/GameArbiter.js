@@ -26,10 +26,17 @@ MINIMAX.GameArbiter = function(evaluator, startingGameState) {
 MINIMAX.GameArbiter.prototype.advanceGame = function(/* action */) {
 	if(this.gameState.getPlayerToMove() === this.cpuPlayer) {
 		var st = new Date().getTime();
-		var gameTree = new MINIMAX.GameTree(this.evaluator);
+		var gameTree
+		if(this.evaluator instanceof REVERSI.ReversiEvaluator) {
+			gameTree = new MINIMAX.GameTree(this.evaluator);
+		} else if (this.evaluator instanceof REVERSI.ReversiLazyEvaluator) {
+			gameTree = new MINIMAX.AlphaBetaPruningGameTree(this.evaluator);
+		} else {
+			throw "No tree for evaluator";
+		} 
 		var rootNode = gameTree.grow(this.gameState);
 		this.cpuMoveTimeLastMs = new Date().getTime() - st;
-		console.log(rootNode.gameState.tokensCount + " tokens, " + this.evaluator.getEvaluationHorizon(rootNode.gameState) + " horizon, " + this.cpuMoveTimeLastMs + " Ms.");
+		console.log("Player " + this.evaluator.playerToWin.playerNumber + ", " + rootNode.gameState.tokensCount + " tokens, " + this.cpuMoveTimeLastMs + " Ms.");
 		var nextNode = this.getMaxScoredChildNode(rootNode);
 		this.gameState = nextNode.gameState;		
 	} else {

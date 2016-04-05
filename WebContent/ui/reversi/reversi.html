@@ -32,6 +32,7 @@
 	<script src="../../js/src/reversi/ReversiGameState.js"></script>
 	<script src="../../js/src/reversi/ReversiGameStateHelper.js"></script>
 	<script src="../../js/src/reversi/CpuVsCpuRunner.js"></script>
+	<script src="../../js/src/reversi/MinimaxVsAlphaBetaRunner.js"></script>
 	<script src="../../js/src/reversi/ui/BoardGameEntity.js"></script>
 	<script src="../../js/src/reversi/ui/BoardCellGameEntity.js"></script>
 	<script src="../../js/src/reversi/ui/GameUIController.js"></script>
@@ -54,7 +55,22 @@
 		console.log(result.toString());
 		*/
 		
-		new REVERSI.UIController();
+		var minimaxEvaluatorBlack = new REVERSI.ReversiEvaluator(MINIMAX.PLAYER_1);
+		minimaxEvaluatorBlack.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["MOVE_COUNTER"]);
+		minimaxEvaluatorBlack.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
+		minimaxEvaluatorBlack.evaluationHorizon = 6;		
+		var alphaBetaEvaluatorWhite = new REVERSI.ReversiLazyEvaluator(MINIMAX.PLAYER_2);
+		alphaBetaEvaluatorWhite.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["MOVE_COUNTER"]);
+		alphaBetaEvaluatorWhite.addEvaluationCriterion(REVERSI.EVALUATION_CRITERIA_DICTIONARY["EDGE_TOKEN_COUNTER"]);
+		alphaBetaEvaluatorWhite.evaluationDepth = 5;		
+		var startingGameState = new REVERSI.ReversiGameState(MINIMAX.PLAYER_1);		
+		var gameArbiterBlack = new MINIMAX.GameArbiter(minimaxEvaluatorBlack, startingGameState);
+		var gameArbiterWhite = new MINIMAX.GameArbiter(alphaBetaEvaluatorWhite, startingGameState);		
+		var runner = new REVERSI.MinimaxVsAlphaBetaRunner(startingGameState, gameArbiterBlack, gameArbiterWhite);
+		var result = runner.run(false, false);
+		console.log(result.toString());
+		
+		//new REVERSI.UIController();
 	};
 	
 	</script>
